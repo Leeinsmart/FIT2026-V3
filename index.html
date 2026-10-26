@@ -187,10 +187,12 @@ button.stat:hover b{color:var(--mag)}
   .shelf{flex-direction:column;height:auto;gap:5px}
   .strip{flex:none;height:74px;transition:height .7s var(--ease);border-radius:3px 3px 3px 16px}
   .strip.on{height:min(78vh,440px)}
-  .slab{writing-mode:horizontal-tb;left:64px;top:50%;transform:translateY(-50%) rotate(-1.5deg);max-height:none;max-width:calc(100% - 80px);padding:.4em .5em;text-overflow:ellipsis}
-  .strip.on .slab{transform:translateY(-50%) rotate(-6deg) scale(.9)}
-  .sid{top:50%;transform:translateY(-50%)}
-  .strip.on .sid{top:12px;transform:none}
+  /* 編號框與作品名橫排，作品名接在編號框後面，編號多了 ▶ 也不會蓋到 */
+  .strip{display:flex;align-items:center;gap:10px;padding:0 14px 0 26px}
+  .strip.on{align-items:flex-start;padding-top:12px}
+  .strip .sid{position:relative;left:auto;top:auto;flex:none}
+  .strip .slab{position:relative;left:auto;top:auto;flex:0 1 auto;min-width:0;writing-mode:horizontal-tb;transform:rotate(-1.5deg);max-height:none;padding:.4em .5em;text-overflow:ellipsis}
+  .strip.on .slab{transform:rotate(-6deg) scale(.9)}
 }
 
 /* ── 頁尾 ── */
