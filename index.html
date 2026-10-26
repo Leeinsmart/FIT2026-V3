@@ -218,6 +218,7 @@ button.stat:hover b{color:var(--mag)}
 .doc .h{width:10px;height:10px}
 .doc-bar{display:flex;justify-content:space-between;gap:16px;border-bottom:1.5px solid var(--line);padding:10px 18px;font:300 11px/1.4 var(--f-asc);letter-spacing:.22em;color:var(--lav)}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);padding:clamp(20px,3vw,44px)}
+.cols.one{grid-template-columns:minmax(0,1fr)}   /* 只有一種語言的介紹用整欄寬 */
 .cols p{margin:0 0 1em;font-size:15.5px;line-height:1.95}
 .cols [lang=en] p,.cols p[lang=en]{font-size:17.5px;line-height:1.6;color:#333}
 @media (max-width:820px){.cols{grid-template-columns:1fr}}
@@ -1115,7 +1116,8 @@ const state = {path: ''};
 const hashPath = () => location.hash.replace(/^#/, '');
 function parse(){
   const p = (state.path || '/home').split('/').filter(Boolean);
-  const type = p[0] || 'home', id = p[1] || '';
+  /* 只認 artists、works 兩種內頁，其他打錯的網址一律當首頁，首頁的三維與標籤才會照常啟動 */
+  const type = p[0] === 'artists' || p[0] === 'works' ? p[0] : 'home', id = type === 'home' ? '' : (p[1] || '');
   return {type, id, path: '/' + [type, id].filter(Boolean).join('/')};
 }
 function go(path){
@@ -1312,7 +1314,7 @@ function renderArtist(r){
       <svg class="tether" aria-hidden="true"><path id="tetP"/></svg>
       <span class="hdl" id="tetH" aria-hidden="true"></span>
     </header>
-    ${hasBio ? `<section class="doc rv">${H4}<div class="doc-bar"><span>about_${a.id}.txt</span><span>${SITE.bio[0]} / ${SITE.bio[1]}</span></div><div class="cols"><div>${paras(a.bio[0])}</div><div>${paras(a.bio[1], true)}</div></div></section>` : ''}
+    ${hasBio ? `<section class="doc rv">${H4}<div class="doc-bar"><span>about_${a.id}.txt</span><span>${SITE.bio[0]} / ${SITE.bio[1]}</span></div><div class="cols${a.bio[0].length && a.bio[1].length ? '' : ' one'}">${a.bio[0].length ? `<div>${paras(a.bio[0])}</div>` : ''}${a.bio[1].length ? `<div>${paras(a.bio[1], true)}</div>` : ''}</div></section>` : ''}
     ${vw ? `<a class="vbox rv" href="#/works/${vw.id}" style="--g:${grad(WORKS.indexOf(vw), '120deg')}"><span class="sgrain"></span><span class="play"><b>▶</b><span>${esc(titleMain(vw))}<br>${SITE.video[0]} <span lang="en">${SITE.video[1]}</span></span></span></a>` : ''}
     <h2 class="sub-h rv">${SITE.thisWorks[0]}<em lang="en">${SITE.thisWorks[1]}</em><span class="n">[${pad(ws.length)}]</span></h2>
     <div class="minis">${ws.map(w => `<a class="mini rv sel" href="#/works/${w.id}" style="--g:${grad(WORKS.indexOf(w))}"><span class="sgrain"></span><span class="sid">${w.id}${w.video ? ' ▶' : ''}</span>${workLines(w)}</a>`).join('')}</div>
@@ -1342,7 +1344,7 @@ function renderWork(r){
       <div>
         <h2 class="sub-h rv">${SITE.byArtists[0]}<em lang="en">${SITE.byArtists[1]}</em></h2>
         <div class="chips rv">${chips}</div>
-        ${hasDesc ? `<div class="doc rv">${H4}<div class="doc-bar"><span>readme_${w.id}.txt</span><span>${SITE.desc[0]} / ${SITE.desc[1]}</span></div><div class="cols">${w.desc[0].length ? `<div>${paras(w.desc[0])}</div>` : ''}${w.desc[1].length ? `<div>${paras(w.desc[1], true)}</div>` : ''}</div></div>` : ''}
+        ${hasDesc ? `<div class="doc rv">${H4}<div class="doc-bar"><span>readme_${w.id}.txt</span><span>${SITE.desc[0]} / ${SITE.desc[1]}</span></div><div class="cols${w.desc[0].length && w.desc[1].length ? '' : ' one'}">${w.desc[0].length ? `<div>${paras(w.desc[0])}</div>` : ''}${w.desc[1].length ? `<div>${paras(w.desc[1], true)}</div>` : ''}</div></div>` : ''}
       </div>
       <aside class="code rv">${H4}
         <div class="cl ab">&gt; SUBMIT: {</div>
@@ -1375,7 +1377,11 @@ function renderFooter(){
 
 /* ===== 畫面 ===== */
 let lastPath = null;
+/* 每換一頁就作廢上一頁掛在視窗與字型上的監聽，避免越換頁掛越多 */
+let pageAC = new AbortController();
 function render(){
+  pageAC.abort();
+  pageAC = new AbortController();
   const r = parse();
   renderChrome(r);
   if(window.FITGL) window.FITGL.unmount();
@@ -1392,14 +1398,10 @@ function render(){
   initReveal();
   initLetters();
   $('#totop').onclick = () => lenis ? lenis.scrollTo(0, {duration: 1.6}) : window.scrollTo({top: 0, behavior: RM ? 'auto' : 'smooth'});
-  if(r.type === 'home'){
-    initHero(); initArtistFloat(); initShelf();
-    const host = $('#hero3d');
-    if(window.FITGL) window.FITGL.mount(host); else window.FIT.pendingHost = host;
-  }
-  if(r.type === 'artists') initTether();
-  if(r.type === 'works') initGallery();
-  Drag.scan();
+  const mountGL = () => { const host = $('#hero3d'); if(window.FITGL) window.FITGL.mount(host); else window.FIT.pendingHost = host; };
+  const inits = r.type === 'home' ? [initHero, initArtistFloat, initShelf, mountGL] : r.type === 'artists' ? [initTether] : [initGallery];
+  /* 一個區塊初始化出錯只影響它自己，其他區塊與開場讀取條照常跑；錯誤照樣印在主控台 */
+  [...inits, () => Drag.scan()].forEach(f => { try{ f(); }catch(err){ console.error('畫面初始化出錯', f.name || '', err); } });
   if(pendingAfter){ const f = pendingAfter; pendingAfter = null; f(); }
 }
 
@@ -1498,10 +1500,11 @@ function initHero(){
     if(window.FITGL && window.FITGL.refit) window.FITGL.refit();   /* 字一換字型、行寬就變，資料夾位置跟著重算 */
   };
   measureSub();
-  window.addEventListener('resize', () => { A = anchors(); measureSub(); }, {passive: true});
+  const signal = pageAC.signal;
+  window.addEventListener('resize', () => { A = anchors(); measureSub(); }, {passive: true, signal});
   if(document.fonts){
-    document.fonts.ready.then(() => { A = anchors(); P.x = A.tx; P.y = A.ty; measureSub(); });
-    document.fonts.addEventListener('loadingdone', () => { if(document.body.contains(box)){ A = anchors(); measureSub(); } });
+    document.fonts.ready.then(() => { if(!signal.aborted){ A = anchors(); P.x = A.tx; P.y = A.ty; measureSub(); } });
+    document.fonts.addEventListener('loadingdone', () => { A = anchors(); measureSub(); }, {signal});
   }
   const tags = [$('#tagMain'), $('#tagA'), $('#tagB')].filter(Boolean);
   window.FIT.tags = tags;
@@ -1565,11 +1568,11 @@ function initShelf(){
 
 /* ===== 藝術家內頁：頭像拉一條貝茲線到名字 ===== */
 function initTether(){
-  const head = $('#apHead'), ring = $('.ring', head), name = $('#apName'), path = $('#tetP'), hdl = $('#tetH');
-  if(!head || !ring || innerWidth < 821){ if(hdl) hdl.style.display = 'none'; return; }
-  const ringDuo = ring;
-  ringDuo.addEventListener('pointerenter', () => ringDuo.classList.add('color'));
-  ringDuo.addEventListener('pointerleave', () => ringDuo.classList.remove('color'));
+  const head = $('#apHead');
+  if(!head) return;   /* 網址裡的藝術家不存在時，頁面只有找不到的提示，沒有頭像區 */
+  const ring = $('.ring', head), name = $('#apName'), path = $('#tetP'), hdl = $('#tetH'), signal = pageAC.signal;
+  ring.addEventListener('pointerenter', () => ring.classList.add('color'));
+  ring.addEventListener('pointerleave', () => ring.classList.remove('color'));
   const P = {x: 0, y: 0, vx: 0, vy: 0, drag: false};
   let A;
   const anchors = () => {
@@ -1577,15 +1580,19 @@ function initTether(){
     A = {sx: c.right - b.left + 10, sy: c.top + c.height * .5 - b.top, tx: n.left - b.left - 14, ty: n.top - b.top + n.height * .15};
   };
   anchors(); P.x = A.tx; P.y = A.ty;
-  if(document.fonts) document.fonts.ready.then(() => { anchors(); P.x = A.tx; P.y = A.ty; });
-  window.addEventListener('resize', anchors, {passive: true});
+  if(document.fonts) document.fonts.ready.then(() => { if(!signal.aborted){ anchors(); P.x = A.tx; P.y = A.ty; } });
+  window.addEventListener('resize', anchors, {passive: true, signal});
   hdl.addEventListener('pointerdown', e => { e.preventDefault(); hdl.setPointerCapture(e.pointerId); P.drag = true; hdl.classList.add('dragging'); });
   hdl.addEventListener('pointermove', e => { if(!P.drag) return; const b = head.getBoundingClientRect(); P.x = e.clientX - b.left; P.y = e.clientY - b.top; });
   const up = () => { P.drag = false; hdl.classList.remove('dragging'); };
   hdl.addEventListener('pointerup', up); hdl.addEventListener('pointercancel', up);
+  /* 這條線只在電腦寬度顯示；每格看一次寬度，視窗拖窄就收起、拖寬就出現 */
   const loop = () => {
     if(!document.body.contains(head)) return;
     requestAnimationFrame(loop);
+    const wide = innerWidth >= 821;
+    path.style.display = hdl.style.display = wide ? '' : 'none';
+    if(!wide) return;
     if(!P.drag){ P.vx = (P.vx + (A.tx - P.x) * .09) * .8; P.vy = (P.vy + (A.ty - P.y) * .09) * .8; P.x += P.vx; P.y += P.vy; }
     path.setAttribute('d', `M${A.sx},${A.sy} C${A.sx + (P.x - A.sx) * .5},${A.sy} ${P.x - 40},${P.y} ${P.x},${P.y}`);
     hdl.style.transform = `translate(${P.x}px,${P.y}px)`;
