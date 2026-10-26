@@ -1499,6 +1499,7 @@ function initHero(){
       [...r.getClientRects()].forEach(b => L.push({l: b.left - st.left, r: b.right - st.left, t: b.top - st.top - off, b: b.bottom - st.top - off}));
     }
     window.FIT.subLines = L;
+    if(window.FITGL && window.FITGL.refit) window.FITGL.refit();   /* 字一換字型、行寬就變，資料夾位置跟著重算 */
   };
   measureSub();
   window.addEventListener('resize', () => { A = anchors(); measureSub(); }, {passive: true});
@@ -1907,6 +1908,7 @@ function layoutFor(w, h){
   if(asp >= 1.05){ cam.position.set(C.camX, C.camY, C.camZ); root.scale.setScalar(Math.min(1.06, .78 + asp * .14)); root.userData.base = new THREE.Vector3(C.bx * Math.min(1, asp / 1.7), C.by, 0); }
   else { cam.position.set(.4, 1.2, C.camZ + 2); root.scale.setScalar(.38 + asp * .2); root.userData.base = new THREE.Vector3(C.mx, C.my, 0); }
   cam.lookAt(root.userData.base.x * .55, root.userData.base.y * .7, 0);
+  cam.updateMatrixWorld();
 }
 function resize(){
   if(!host) return;
@@ -1914,6 +1916,69 @@ function resize(){
   if(!w || !h) return;
   R.setSize(w, h, false);
   layoutFor(w, h);
+  fitShift();
+}
+/* 畫面收窄時整個資料夾往右移：在靜止姿勢下把十張彩色頁投影到螢幕取外框，
+   外框碰到首屏副標（桃紅字與日期）的任何一行就往右移，移到剛好不碰為止；
+   最多移到頁扇右緣超出畫面一成，再多就停在那裡，剩下的交給標籤自己讓開。白色封面不算，它本來就墊在字後面 */
+let shiftX = 0;
+function hull(pts){
+  pts = pts.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lo = [], up = [];
+  for(const p of pts){ while(lo.length > 1 && cr(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop(); lo.push(p); }
+  for(const p of pts.slice().reverse()){ while(up.length > 1 && cr(up[up.length - 2], up[up.length - 1], p) <= 0) up.pop(); up.push(p); }
+  return lo.slice(0, -1).concat(up.slice(0, -1));
+}
+function pagesHull(){
+  root.updateMatrixWorld(true);
+  const pts = [];
+  pages.forEach(P => { const g = P.mesh.geometry.parameters; [[0, 0], [0, g.height], [g.width, 0], [g.width, g.height], [g.width / 2, g.height], [g.width / 2, 0], [g.width, g.height / 2]].forEach(([x, y]) => pts.push(proj(P.mesh, x, y, 0))); });
+  return hull(pts);
+}
+function hitsText(){
+  const L = F.subLines;
+  if(!L || !L.length) return false;
+  const H = pagesHull();
+  return L.some(r => sat(H, [[r.l - 6, r.t], [r.r + 6, r.t], [r.r + 6, r.b], [r.l - 6, r.b]]));
+}
+function fitShift(){
+  shiftX = 0;
+  if(!host || !F.subLines || !F.subLines.length) return;
+  pose(0, .2, 0, false, false);
+  if(!hitsText()) return;
+  const W = host.clientWidth, tooFar = () => Math.max(...pagesHull().map(p => p[0])) > W * 1.1;
+  let lo = 0, hi = 0;
+  for(let s = .25; s <= 6; s += .25){ shiftX = s; pose(0, .2, 0, false, false); if(!hitsText()){ hi = s; break; } if(tooFar()){ hi = -s; break; } lo = s; }
+  if(hi < 0){ shiftX = lo; return; }   /* 推到上限還碰得到：停在不超出畫面的最遠處 */
+  if(hi === 0){ shiftX = lo; return; }
+  for(let k = 0; k < 8; k++){ const m = (lo + hi) / 2; shiftX = m; pose(0, .2, 0, false, false); if(hitsText()) lo = m; else hi = m; }
+  shiftX = hi;
+}
+/* 資料夾的姿勢：p 是捲動進度，px、py 是游標位置；smooth 為真時每格往目標靠一點，為假時直接擺到目標（量測用） */
+function pose(p, px, py, inside, smooth){
+  const base = root.userData.base || tmp.set(0, 0, 0), C = CFG;
+  root.position.set(base.x + shiftX, base.y + p * .9, base.z);
+  root.rotation.set(C.rx + p * .34 + py * .06, C.ry + px * .18 - p * .22, C.rz + px * .025);
+  /* 頁的角度：一疊頁平均分布在 A0 到 A1，游標附近的頁會被撐開，像用手指翻檔案；
+     每張頁也繞底端那一點在自己的平面上散開，像海報裡收在一個角的頁扇 */
+  const A0 = lerp(C.a0, C.a0o, p) * Math.PI, A1 = lerp(C.a1, C.a1o, p) * Math.PI;
+  const fc = (px + 1) / 2;
+  for(let i = 0; i < N; i++){
+    const P = pages[i];
+    let f = (i + .5) / N;
+    const d = f - fc;
+    f += .55 * d * Math.exp(-(d * d) / (2 * .018)) * (inside ? 1 : .35);
+    f = Math.min(1, Math.max(0, f));
+    const h = smooth && hov === i;
+    const target = lerp(A0, A1, f) + (h ? -.24 : 0);
+    P.a = smooth ? P.a + (target - P.a) * .1 : target;
+    P.hv = smooth ? P.hv + ((h ? 1 : 0) - P.hv) * .12 : 0;
+    P.piv.rotation.set(0, -P.a, (f - .5) * C.fanZ * (1 + p * .8));
+    P.piv.position.set(0, -PH / 2 + P.hv * .32, i * .004);
+  }
+  front.rotation.y = -lerp(.9, .965, p) * Math.PI;
+  back.rotation.y = -(A1 + .05 * Math.PI);
 }
 const lerp = (a, b, t) => a + (b - a) * t;
 /* 任何一格畫壞就收掉三維、換回平面頁扇，不留一片空白 */
@@ -1930,32 +1995,14 @@ function step(now){
   const t = F.RM ? 2 : (now - t0) / 1000;
   ptr.x += (ptr.tx - ptr.x) * .06; ptr.y += (ptr.ty - ptr.y) * .06;
   prog += ((F.heroP || 0) - prog) * .09;
-  const p = F.RM ? .25 : prog;
-  const base = root.userData.base || tmp.set(0, 0, 0), C = CFG;
-  root.position.set(base.x, base.y + p * .9, base.z);
-  root.rotation.set(C.rx + p * .34 + ptr.y * .06, C.ry + ptr.x * .18 - p * .22, C.rz + ptr.x * .025);
-  /* 頁的角度：一疊頁平均分布在 A0 到 A1，游標附近的頁會被撐開，像用手指翻檔案；
-     每張頁也繞底端那一點在自己的平面上散開，像海報裡收在一個角的頁扇 */
-  const A0 = lerp(C.a0, C.a0o, p) * Math.PI, A1 = lerp(C.a1, C.a1o, p) * Math.PI;
-  const fc = (ptr.x + 1) / 2;
-  for(let i = 0; i < N; i++){
-    const P = pages[i];
-    let f = (i + .5) / N;
-    const d = f - fc;
-    f += .55 * d * Math.exp(-(d * d) / (2 * .018)) * (ptr.inside ? 1 : .35);
-    f = Math.min(1, Math.max(0, f));
-    const target = lerp(A0, A1, f) + (hov === i ? -.24 : 0);
-    P.a += (target - P.a) * .1;
-    P.hv += ((hov === i ? 1 : 0) - P.hv) * .12;
-    P.piv.rotation.set(0, -P.a, (f - .5) * C.fanZ * (1 + p * .8));
-    P.piv.position.set(0, -PH / 2 + P.hv * .32, i * .004);
+  const p = F.RM ? .25 : prog, C = CFG;
+  pose(p, ptr.x, ptr.y, ptr.inside, true);
+  pages.forEach((P, i) => {
     P.m.uniforms.uTime.value = t;
     P.m.uniforms.uHover.value = P.hv;
     P.m.uniforms.uCurl.value = C.curl * (.65 + .35 * Math.sin(i * 1.7)) + p * .2 - P.hv * .2;
     P.m.uniforms.uLift.value = P.hv * .2;
-  }
-  front.rotation.y = -lerp(.9, .965, p) * Math.PI;
-  back.rotation.y = -(A1 + .05 * Math.PI);
+  });
   pool.material.uniforms.uTime.value = t;
   pick();
   R.render(scene, cam);
@@ -2072,6 +2119,8 @@ const API = {
     host = null;
   },
 };
+API.refit = () => { if(host && R) fitShift(); };
+API.fitInfo = () => ({shiftX: +shiftX.toFixed(3), clear: !hitsText()});
 window.FITGL = API;
 if(F.pendingHost && document.body.contains(F.pendingHost)){ const h = F.pendingHost; F.pendingHost = null; API.mount(h); }
 </script>
