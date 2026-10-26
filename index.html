@@ -169,6 +169,10 @@ button.stat:hover b{color:var(--mag)}
 .shelf{display:flex;gap:5px;height:min(78vh,760px);margin-top:28px}
 .strip{position:relative;flex:1 1 0;min-width:0;overflow:hidden;background:var(--g);border:1.5px solid var(--line);border-radius:3px 16px 3px 3px;transition:flex-grow .8s var(--ease);color:var(--navy)}
 .strip.on{flex-grow:7.5}
+@media (min-width:821px){
+  .strip.peek{flex-grow:2.1;transition-duration:.55s}
+  .strip.peek .slab{transform:translateX(-50%) rotate(-7deg)}
+}
 .sband{position:absolute;left:0;top:0;bottom:0;width:14px;background:repeating-linear-gradient(0deg,var(--green) 0 2px,var(--duo-l) 2px 3px);opacity:.85;-webkit-mask:var(--grain);mask:var(--grain);-webkit-mask-size:120px;mask-size:120px}
 .sid{position:absolute;left:12px;top:12px;font:300 10.5px/1 var(--f-asc);letter-spacing:.2em;background:#fff;border:1.5px solid var(--line);padding:5px 6px;z-index:2}
 .slab{position:absolute;left:50%;top:56px;transform:translateX(-50%) rotate(-3deg);writing-mode:vertical-rl;background:#fff;border:1.5px solid var(--line);font:700 clamp(14px,1.3vw,20px)/1 var(--f-tag);letter-spacing:.12em;padding:.6em .35em;max-height:calc(100% - 110px);overflow:hidden;transition:opacity .4s,transform .6s var(--spring);white-space:nowrap}
@@ -1457,17 +1461,19 @@ function initArtistFloat(){
 }
 
 /* ===== 作品頁條：滑過展開，觸控先點開再點進 ===== */
+/* 作品頁條：滑過（或鍵盤移到）只微微展開；點一下才整張展開，展開後再點才進作品頁 */
 function openStrip(s){
-  $$('.strip', s.parentNode).forEach(x => x.classList.toggle('on', x === s));
+  $$('.strip', s.parentNode).forEach(x => { x.classList.toggle('on', x === s); x.classList.remove('peek'); });
 }
 function initShelf(){
   const sh = $('#shelf');
   if(!sh) return;
-  let t = 0;
+  const peek = s => $$('.strip', sh).forEach(x => x.classList.toggle('peek', x === s && !x.classList.contains('on')));
   $$('.strip', sh).forEach(s => {
-    if(FINE) s.addEventListener('pointerenter', () => { clearTimeout(t); t = setTimeout(() => openStrip(s), 70); });
-    s.addEventListener('focus', () => openStrip(s));
+    if(FINE) s.addEventListener('pointerenter', () => peek(s));
+    s.addEventListener('focus', () => peek(s));
   });
+  if(FINE) sh.addEventListener('pointerleave', () => peek(null));
 }
 
 /* ===== 藝術家內頁：頭像拉一條貝茲線到名字 ===== */
