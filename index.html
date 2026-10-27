@@ -2036,11 +2036,10 @@ function renderWork(r){
   const gmain = P.length
     ? `<div class="gmain has" id="gmain" data-n="${P.length}" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}<img class="gimg" id="gimg" src="${P[0].src}" alt="${esc(tm)} ${SITE.img} 1" decoding="async"><span class="glab cap" id="glab">${lab}</span>${P.length > 1 ? '<button class="gnav prev" aria-label="上一張 Previous">‹</button><button class="gnav next" aria-label="下一張 Next">›</button>' : ''}</div>`
     : `<div class="gmain" id="gmain" data-n="${w.imgs}" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}<span class="sgrain"></span><span class="glab" id="glab">${lab}</span></div>`;
-  /* 最後一列（目前十件都是創作年份）後面不加逗號 */
-  const meta = w.meta.map((m, k) => {
+  const meta = w.meta.map(m => {
     const v = bil([m[2], m[3]]);
     const val = m[1] === 'Location' && m[2] ? `<a class="map" href="${esc(mapUrl(m[2]))}" target="_blank" rel="noopener">${v}<small>Google 地圖 ↗</small></a>` : v;
-    return `<div class="cl in"><span class="ck">${esc(m[0])} <em lang="en">${esc(m[1])}</em>:</span><span class="cv">"${val}"${k < w.meta.length - 1 ? ',' : ''}</span></div>`;
+    return `<div class="cl in"><span class="ck">${esc(m[0])} <em lang="en">${esc(m[1])}</em>:</span><span class="cv">"${val}"</span></div>`;
   }).join('');
   const hasDesc = w.desc[0].length || w.desc[1].length;
   return `<article class="page wp">
