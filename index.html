@@ -322,6 +322,31 @@ button.stat:hover b{color:var(--mag)}
 .cl .map small{font:400 10px/1 var(--f-asc);letter-spacing:.14em;color:var(--mag);margin-left:8px;white-space:nowrap}
 .cl.dim,.cl.ab{font:300 12px/2 var(--f-asc);letter-spacing:.2em;color:var(--lav)}
 @media (max-width:820px){.wp-body{grid-template-columns:1fr}}
+/* 作品頁留言 */
+.cm{max-width:920px}
+.cm-form{margin-top:28px}
+.cm-in{display:grid;gap:16px;padding:20px 22px 18px}
+.cm-f{display:grid;gap:6px}
+.cm-f .ck{font:400 12px var(--f-asc);letter-spacing:.14em;color:var(--lav)}
+.cm-f .ck em{font-style:normal}
+.cm-f input,.cm-f textarea{width:100%;border:1.5px solid var(--line);border-radius:0;background:#fff;padding:10px 12px;font:400 16px/1.6 var(--f-zh);color:var(--navy);resize:vertical;-webkit-appearance:none;appearance:none}
+.cm-f input:focus,.cm-f textarea:focus{outline:none;border-color:var(--mag)}
+.cur-on .cm-f input,.cur-on .cm-f textarea{cursor:text}
+.cm-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.cm-act{display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap}
+.cm-st{margin-right:auto;font:400 13px/1.5 var(--f-zh);color:var(--mag)}
+.cm-st [lang=en]{color:var(--grey);margin-left:.3em}
+.cm-send{border:1.5px solid var(--navy);padding:11px 22px;font:400 12px/1 var(--f-asc);letter-spacing:.24em;color:var(--navy);transition:background .3s,color .3s}
+.cm-send:hover{background:var(--navy);color:#fff}
+.cm-send:disabled{opacity:.45;pointer-events:none}
+.cm-list{list-style:none;margin:28px 0 0;padding:0}
+.cm-list li{border-bottom:1.5px solid var(--line);padding:16px 0}
+.cm-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px}
+.cm-h b{font:500 16px/1.4 var(--f-zh);color:var(--navy);overflow-wrap:anywhere}
+.cm-h time{font:300 11px/1 var(--f-asc);letter-spacing:.18em;color:var(--lav)}
+.cm-list p{margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;font:400 16px/1.75 var(--f-zh);color:var(--ink)}
+.cm-list .cm-empty{font:400 14px/1.6 var(--f-zh);color:var(--grey)}
+.cm-list .cm-empty [lang=en]{margin-left:.3em}
 
 /* 內頁右緣頁緣 */
 .drw{position:fixed;right:0;top:50%;z-index:30;display:flex;gap:3px;height:52vh;transform:translateY(-50%);padding-right:10px}
@@ -1686,7 +1711,15 @@ const SITE = {
   img:'作品圖', byArtists:['創作藝術家','Artists'], desc:['詳細介紹','About the work'], thanks:['協力與致謝','Collaborators & Thanks'],
   intro:['計畫簡介','About the program'],
   open:'開啟檔案 OPEN FILE →',
+  cm:['留言','Comments'], cmNew:['留言','Leave a comment'], cmName:['暱稱','Name'], cmMsg:['留言','Message'], cmSend:'送出 SEND →',
+  cmLoading:['讀取中','Loading'], cmNone:['還沒有留言','No comments yet'], cmLoadErr:['留言暫時讀不到','Comments are unavailable right now'],
+  cmFill:['請填暱稱和留言','Please fill in both fields'], cmSending:['送出中','Sending'], cmDone:['已送出','Posted'],
+  cmHeld:['已送出，確認後顯示','Submitted, will appear after review'], cmBusy:['留言太頻繁，請稍後再試','Too many comments, please try again later'],
+  cmFail:['送出失敗，請稍後再試','Failed to send, please try again'],
 };
+
+/* 留言後端：tools/comments_apps_script.gs 部署成的 Apps Script 網址。空字串就不顯示留言區 */
+const COMMENTS_API = 'https://script.google.com/macros/s/AKfycbzp0O85DvhD-OQFgDD9j_BeegtOWDR-rM6eS5yTh1p2oBVNPn4RgROY3eShfCJ-sdnn/exec';
 
 /* 每件作品一張頁：四段漸層色取自主視覺。三維頁、作品頁條、轉場與內頁都從這裡取色 */
 const SHEETS = [
@@ -2028,8 +2061,26 @@ function renderWork(r){
         <div class="cl dim">&gt; [=]_DONE_</div>
       </aside>
     </section>
+    ${COMMENTS_API ? commentsBlock(w) : ''}
     <nav class="pn"><a href="#/works/${prev.id}"><small>&lt; PREV / ${prev.id}</small><b>${esc(titleMain(prev))}</b></a><a href="#/works/${next.id}"><small>NEXT / ${next.id} &gt;</small><b>${esc(titleMain(next))}</b></a></nav>
   </article>`;
+}
+
+/* 留言區：不用登入，填暱稱和留言就送出；內容由 initComments 跟後端拿 */
+function commentsBlock(w){
+  return `<section class="cm" id="cm" data-w="${w.id}">
+    <h2 class="sub-h rv">${SITE.cm[0]}<em lang="en">${SITE.cm[1]}</em><span class="n" id="cmN">[--]</span></h2>
+    <form class="doc cm-form rv" id="cmForm" novalidate>${H4}
+      <div class="doc-bar"><span>comments_${w.id}.txt</span><span>${SITE.cmNew[0]} / ${SITE.cmNew[1]}</span></div>
+      <div class="cm-in">
+        <label class="cm-f"><span class="ck">${SITE.cmName[0]} <em lang="en">${SITE.cmName[1]}</em></span><input name="n" maxlength="30" autocomplete="nickname" required></label>
+        <label class="cm-f"><span class="ck">${SITE.cmMsg[0]} <em lang="en">${SITE.cmMsg[1]}</em></span><textarea name="m" maxlength="500" rows="4" required data-lenis-prevent></textarea></label>
+        <input class="cm-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="cm-act"><span class="cm-st" id="cmSt" role="status" aria-live="polite"></span><button class="cm-send sel" type="submit">${SITE.cmSend}</button></div>
+      </div>
+    </form>
+    <ol class="cm-list" id="cmList"></ol>
+  </section>`;
 }
 
 /* 內頁右緣一排頁緣：作品頁列十件作品、藝術家頁列八位藝術家，滑過抽出標籤 */
@@ -2073,7 +2124,7 @@ function render(){
   initLetters();
   $('#totop').onclick = () => lenis ? lenis.scrollTo(0, {duration: 1.6}) : window.scrollTo({top: 0, behavior: RM ? 'auto' : 'smooth'});
   const mountGL = () => { const host = $('#hero3d'); if(window.FITGL) window.FITGL.mount(host); else window.FIT.pendingHost = host; };
-  const inits = r.type === 'home' ? [initHero, initArtistFloat, initShelf, mountGL] : r.type === 'artists' ? [initTether] : [initGallery];
+  const inits = r.type === 'home' ? [initHero, initArtistFloat, initShelf, mountGL] : r.type === 'artists' ? [initTether] : [initGallery, initComments];
   /* 一個區塊初始化出錯只影響它自己，其他區塊與開場讀取條照常跑；錯誤照樣印在主控台 */
   [...inits, () => Drag.scan()].forEach(f => { try{ f(); }catch(err){ console.error('畫面初始化出錯', f.name || '', err); } });
   if(pendingAfter){ const f = pendingAfter; pendingAfter = null; f(); }
@@ -2305,7 +2356,45 @@ function initGallery(){
   let sx = null;
   g.addEventListener('pointerdown', e => { if(!e.target.closest('.gnav')) sx = e.clientX; });
   g.addEventListener('pointerup', e => { if(sx == null) return; const d = e.clientX - sx; sx = null; if(Math.abs(d) > 40) show(k + (d < 0 ? 1 : -1)); });
-  document.onkeydown = e => { if(!document.body.contains(g)) return; if(e.key === 'ArrowRight') show(k + 1); if(e.key === 'ArrowLeft') show(k - 1); };
+  /* 在留言欄打字時方向鍵是移游標，不換圖 */
+  document.onkeydown = e => { if(!document.body.contains(g) || e.target.closest('input, textarea')) return; if(e.key === 'ArrowRight') show(k + 1); if(e.key === 'ArrowLeft') show(k - 1); };
+}
+
+function initComments(){
+  const sec = $('#cm');
+  if(!sec || !COMMENTS_API) return;
+  const w = sec.dataset.w, list = $('#cmList'), num = $('#cmN'), st = $('#cmSt'), form = $('#cmForm'), btn = $('.cm-send', form), f = form.elements;
+  const sig = pageAC.signal;
+  let items = [];
+  const say = p => { st.innerHTML = p ? bil(p) : ''; };
+  const when = t => { const d = new Date(t); return isNaN(d) ? '' : d.toLocaleString('sv-SE', {timeZone: 'Asia/Taipei', hour12: false}).slice(0, 16); };
+  const note = p => `<li class="cm-empty">${bil(p)}</li>`;
+  const draw = () => {
+    num.textContent = `[${pad(items.length)}]`;
+    list.innerHTML = items.length ? items.map(c => `<li><div class="cm-h"><b>${esc(c.n)}</b><time>${esc(when(c.t))}</time></div><p>${esc(c.m)}</p></li>`).join('') : note(SITE.cmNone);
+  };
+  list.innerHTML = note(SITE.cmLoading);
+  fetch(COMMENTS_API + '?w=' + encodeURIComponent(w), {signal: sig})
+    .then(r => r.json())
+    .then(d => { if(!d.ok) throw new Error(d.err); items = d.items || []; draw(); })
+    .catch(err => { if(sig.aborted) return; console.error('留言讀取失敗', err); list.innerHTML = note(SITE.cmLoadErr); });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const n = f.n.value.trim(), m = f.m.value.trim();
+    if(!n || !m){ say(SITE.cmFill); return; }
+    btn.disabled = true;
+    say(SITE.cmSending);
+    /* 內文用純文字送，瀏覽器不會先發預檢請求，Apps Script 收得到 */
+    fetch(COMMENTS_API, {method: 'POST', body: JSON.stringify({w, n, m, hp: f.hp.value}), signal: sig})
+      .then(r => r.json())
+      .then(d => {
+        if(!d.ok){ say(d.err === 'busy' ? SITE.cmBusy : SITE.cmFail); return; }
+        f.m.value = '';
+        if(d.item){ items.unshift(d.item); draw(); say(SITE.cmDone); } else say(SITE.cmHeld);
+      })
+      .catch(err => { if(sig.aborted) return; console.error('留言送出失敗', err); say(SITE.cmFail); })
+      .finally(() => { btn.disabled = false; });
+  }, {signal: sig});
 }
 
 /* ===== 拖曳貼紙（# 棋盤格、黑色星形） ===== */
