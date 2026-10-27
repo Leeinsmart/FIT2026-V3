@@ -161,6 +161,8 @@ button.stat:hover b{color:var(--mag)}
 .duo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.12) brightness(1.04);mix-blend-mode:multiply;transition:filter .7s}
 .duo::after{content:'';position:absolute;inset:0;background:var(--green);mix-blend-mode:lighten;transition:opacity .7s;pointer-events:none}
 .duo::before{z-index:2;opacity:.42}
+/* Safari 在照片做濾鏡動畫時，外層的圓角裁切剪不住它，轉彩色那 0.7 秒會露出方形；照片和兩層色彩各自跟著外框的圓角 */
+.duo img,.duo::before,.duo::after{border-radius:inherit}
 .duo.color img{filter:none;mix-blend-mode:normal}
 .duo.color::after{opacity:0}
 .nopic{display:grid;place-items:center;width:100%;height:100%;font:500 clamp(40px,6vw,90px)/1 var(--f-lat);color:var(--navy);background:var(--g)}
