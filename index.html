@@ -153,7 +153,8 @@ button.stat:hover b{color:var(--mag)}
   .anm{font-size:clamp(30px,9vw,44px)}
   .ayr{text-align:left}
 }
-.afloat{position:fixed;left:0;top:0;z-index:40;width:clamp(210px,19vw,300px);pointer-events:none;opacity:0;transition:opacity .25s;will-change:transform}
+/* 浮出的照片搬到 body 層，疊在選取框（#sel，55）上面、游標（#cur，95）下面；留在 #app 裡的話整個 #app 只有 z-index 1，蓋不過選取框 */
+.afloat{position:fixed;left:0;top:0;z-index:56;width:clamp(210px,19vw,300px);pointer-events:none;opacity:0;transition:opacity .25s;will-change:transform}
 .afloat.on{opacity:1}
 .afloat .duo{aspect-ratio:1;border:1.5px solid var(--line)}
 .afloat .h{width:9px;height:9px;border-color:var(--line-d)}
@@ -2161,6 +2162,8 @@ function initArtistFloat(){
   const fl = $('#afloat'), list = $('#alist');
   if(!fl || !FINE) return;
   const duo = $('#afDuo'), tag = $('#afTag');
+  document.body.appendChild(fl);
+  pageAC.signal.addEventListener('abort', () => fl.remove(), {once: true});
   let x = innerWidth / 2, y = innerHeight / 2, tx = x, ty = y, on = false, raf = 0, colorT = 0;
   const loop = () => {
     x += (tx - x) * .16; y += (ty - y) * .16;
