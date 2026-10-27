@@ -54,7 +54,13 @@ img{display:block;max-width:100%}
 /* ── 首頁主視覺 ── */
 /* 首屏固定住的捲動距離＝高度減一個螢幕：電腦 40%、手機 35% 個螢幕高，約一次滑動開合完 */
 .hero{position:relative;height:140vh}
-.hero-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.hero-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto;row-gap:16px}
+/* 動態視覺與入口各佔一列；旋轉的吊牌與三維畫面都只能畫在視覺區內。 */
+.hero-art{position:relative;min-width:0;min-height:0;overflow:hidden;contain:paint}
+.hero-foot{position:relative;z-index:6;padding:0 var(--gut) max(20px,env(safe-area-inset-bottom))}
+.hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px clamp(28px,6vw,88px)}
+.hero-actions .hash{position:relative;display:grid;align-items:center;min-height:44px;padding:0 2px}
+.hero-foot .hud{position:static;margin-top:12px}
 .hero-3d{position:absolute;inset:0}
 .hero-3d canvas{display:block;width:100%;height:100%;touch-action:pan-y}
 .hero-3d.gl .ffan{display:none}
@@ -86,7 +92,6 @@ img{display:block;max-width:100%}
 .vh{left:0;top:0;margin:-5px 0 0 -5px;z-index:2;pointer-events:none}
 .hash{position:absolute;z-index:3;font:500 italic clamp(15px,1.4vw,22px)/1 var(--f-zh);color:var(--grey);letter-spacing:.02em;white-space:nowrap}
 button.hash:hover{color:var(--mag)}
-.h-acc{left:52%;top:62%}.h-sha{left:57%;bottom:15%}
 .h-edit{left:0;top:0;pointer-events:none;color:var(--mag-s);font-size:13px}
 .checker{position:absolute;right:6%;top:52%;z-index:3;font:700 clamp(110px,11vw,190px)/1 var(--f-asc);color:transparent;background:repeating-conic-gradient(#2a2a2a 0 25%,#fff 0 50%) 0 0/9px 9px;-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:1.5px #2a2a2a;user-select:none}
 .blob{position:absolute;left:4%;bottom:7%;z-index:3;width:clamp(92px,9vw,150px);user-select:none}
@@ -103,7 +108,6 @@ button.hash:hover{color:var(--mag)}
   /* 手機上桃紅字各拆兩行：臺北市／國內外青年藝術家交流計畫；英文在 Residency 前換行 */
   .hero-sub .zh span{display:block}
   .hero-sub .en{max-width:15.5em}
-  .h-acc{left:8%;right:auto;top:auto;bottom:20%}.h-sha{left:8%;bottom:13%}
   .checker{right:4%;top:38%;font-size:84px}
   .blob{left:auto;right:30%;bottom:6%;width:72px}
   .hud span:first-child{display:none}
@@ -241,8 +245,10 @@ button.stat:hover b{color:var(--mag)}
 .ring{width:clamp(180px,22vw,330px);aspect-ratio:1;border-radius:50%;border:2px solid var(--mag-s);box-shadow:0 0 0 8px #fff,0 0 0 9.5px var(--line)}
 .ring:hover{cursor:crosshair}
 .ap-name{margin:.1em 0 .14em;font:500 clamp(54px,8.6vw,150px)/.95 var(--f-lat);color:var(--navy);overflow-wrap:anywhere}
-.ap-meta{display:flex;flex-wrap:wrap;gap:8px 24px;font:400 14.5px/1.6 var(--f-zh);color:var(--ink)}
-.ap-meta span{border-left:1.5px solid var(--line);padding-left:10px}
+/* 間距一層比一層大一倍：豎線到自己的字 8，同一組中英之間 16，組與組之間 32 */
+.ap-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 32px;font:400 14.5px/24px var(--f-zh);color:var(--ink)}
+.ap-meta .mg{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px}
+.ap-meta .mg>span{border-left:1.5px solid var(--line);padding-left:8px}
 .ap-meta [lang=en]{color:var(--grey);font-size:16px}
 .ap-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
 .ap-links a{font:400 12px/1 var(--f-asc);letter-spacing:.16em;color:var(--navy);border:1.5px solid var(--line);background:#fff;padding:12px 14px;transition:background .3s,color .3s}
@@ -1796,7 +1802,12 @@ function renderHome(){
   return `
   <section class="hero" id="top">
     <div class="hero-stick" id="heroStick">
-      <div class="hero-3d" id="hero3d">${fallbackFan()}</div>
+      <div class="hero-art" id="heroArt">
+        <div class="hero-3d" id="hero3d">${fallbackFan()}</div>
+        ${tags}
+        <div class="checker drag" aria-hidden="true">#</div>
+        <div class="blob drag" aria-hidden="true">${blobSvg()}</div>
+      </div>
       <div class="hero-title" id="heroTitle">
         <div class="yr">${letters(YEAR)}</div>
         <h1 class="wm" aria-label="File in Taipei ${YEAR}"><span class="ln">${letters('File')}</span><span class="ln"><span class="in" id="inC"><span>in</span></span></span><span class="ln">${letters('Taip')}<span class="lt" id="eAnc">e</span>${letters('i')}</span></h1>
@@ -1805,12 +1816,13 @@ function renderHome(){
         <span class="hdl" id="hdl" aria-hidden="true"></span>
         <span class="hash h-edit" id="hEdit" aria-hidden="true">＊ EDIT</span>
       </div>
-      ${tags}
-      <button class="hash h-acc sel" data-sec="artists"># ACCESS</button>
-      <button class="hash h-sha sel" data-sec="works">&amp; SHARE</button>
-      <div class="checker drag" aria-hidden="true">#</div>
-      <div class="blob drag" aria-hidden="true">${blobSvg()}</div>
-      <div class="hud" aria-hidden="true"><span>/* STATUS: ${pad(ARTISTS.length)}_ARTISTS / ${pad(WORKS.length)}_WORKS */</span><span class="sc">SCROLL ↓</span></div>
+      <div class="hero-foot">
+        <div class="hero-actions" role="group" aria-label="探索藝術家與作品 Explore artists and works">
+          <button class="hash h-acc sel" data-sec="artists"># ACCESS</button>
+          <button class="hash h-sha sel" data-sec="works">&amp; SHARE</button>
+        </div>
+        <div class="hud" aria-hidden="true"><span>/* STATUS: ${pad(ARTISTS.length)}_ARTISTS / ${pad(WORKS.length)}_WORKS */</span><span class="sc">SCROLL ↓</span></div>
+      </div>
     </div>
   </section>
 
@@ -1890,6 +1902,7 @@ function strip(w, i){
 }
 
 /* ===== 藝術家內頁 ===== */
+const metaGroup = (zh, en) => (zh || en) ? `<span class="mg">${zh ? `<span>${esc(zh)}</span>` : ''}${en ? `<span lang="en">${esc(en)}</span>` : ''}</span>` : '';
 function renderArtist(r){
   const a = artist(r.id);
   if(!a) return `<article class="page"><p class="crumb">&gt; ${esc(r.id)} not found</p></article>`;
@@ -1905,7 +1918,7 @@ function renderArtist(r){
       <div class="rv">
         <span class="aid">${a.id}</span>
         <h1 class="ap-name" id="apName">${letters(a.name)}</h1>
-        <div class="ap-meta">${a.born ? `<span>${a.born} 年生 <span lang="en">b. ${a.born}</span></span>` : ''}${a.nat ? `<span>${esc(a.nat[0])} <span lang="en">${esc(a.nat[1])}</span></span>` : ''}</div>
+        <div class="ap-meta">${a.born ? metaGroup(a.born + ' 年生', 'b. ' + a.born) : ''}${a.nat ? metaGroup(a.nat[0], a.nat[1]) : ''}</div>
         ${links ? `<div class="ap-links">${links}</div>` : ''}
       </div>
       <svg class="tether" aria-hidden="true"><path id="tetP"/></svg>
@@ -2529,25 +2542,56 @@ function init(){
   pool.rotation.x = -Math.PI / 2; pool.position.set(-.6, -PH / 2 - .08, .4); pool.renderOrder = -1;
   root.add(pool);
 }
-const CFG = {fov: 34, camX: 1, camY: 1.4, camZ: 14.5, rx: .1, ry: -.15, rz: -.12, a0: .32, a1: .66, a0o: .14, a1o: .9, fanZ: .28, curl: .5, bx: 2.2, by: -.2, mx: .5, my: -4.6};
+const CFG = {fov: 34, camX: 1, camY: 1.4, camZ: 14.5, rx: .1, ry: -.15, rz: -.12, a0: .32, a1: .66, a0o: .14, a1o: .9, fanZ: .28, curl: .5, bx: 2.2, by: -.2, mx: .5, my: -4.6, edge: .88};
+/* 資料夾有兩種擺法：放在首屏大標與副標的右邊（side），或放到字的下方。每次版面變動兩種都擺一次，
+   取資料夾在畫面上比較寬的那一種；放右邊的那種要不碰字、也不超出右側界線才算數。
+   用實際放得下多大來選，不用畫面長寬比：直式平板與接近正方形的視窗，字的右邊其實還很空 */
+let side = true;
 function layoutFor(w, h){
   const asp = w / h, C = CFG;
   cam.fov = C.fov; cam.aspect = asp; cam.updateProjectionMatrix();
-  if(asp >= 1.05){ cam.position.set(C.camX, C.camY, C.camZ); root.scale.setScalar(Math.min(1.06, .78 + asp * .14)); root.userData.base = new THREE.Vector3(C.bx * Math.min(1, asp / 1.7), C.by, 0); }
+  if(side){ cam.position.set(C.camX, C.camY, C.camZ); root.scale.setScalar(Math.min(1.06, .78 + asp * .14)); root.userData.base = new THREE.Vector3(C.bx * Math.min(1, asp / 1.7), C.by, 0); }
   else { cam.position.set(.4, 1.2, C.camZ + 2); root.scale.setScalar(.38 + asp * .2); root.userData.base = new THREE.Vector3(C.mx, C.my, 0); }
   cam.lookAt(root.userData.base.x * .55, root.userData.base.y * .7, 0);
   cam.updateMatrixWorld();
+}
+/* 放在字右邊時，資料夾右緣不超過畫面寬的 edge（八成八）、也不壓到右邊的 # 號；超過就整個等比縮小再重擺，三輪內收斂。
+   回傳最後放不放得進去 */
+function shrinkToRoom(){
+  const W = host.clientWidth, ck = host.parentElement && host.parentElement.querySelector('.checker');
+  const lim = Math.min(W * CFG.edge, ck && ck.offsetWidth ? ck.offsetLeft - 8 : W);
+  const right = () => { pose(0, .2, 0, false, false); return Math.max(...pagesHull().map(p => p[0])); };
+  for(let i = 0; i < 3 && right() > lim + 2; i++){
+    const xs = pagesHull().map(p => p[0]), l = Math.min(...xs), r = Math.max(...xs);
+    root.scale.multiplyScalar(Math.max(.6, (lim - l) / (r - l)));
+    fitShift();
+  }
+  return right() <= lim + 2 && !hitsText();
+}
+function tryLayout(s, w, h){
+  side = s;
+  layoutFor(w, h);
+  fitShift();
+  const ok = s ? shrinkToRoom() : true;
+  pose(0, .2, 0, false, false);
+  const xs = pagesHull().map(p => p[0]);
+  return ok ? Math.max(...xs) - Math.min(...xs) : 0;
+}
+function arrange(){
+  const w = host.clientWidth, h = host.clientHeight;
+  if(!w || !h) return;
+  const atSide = tryLayout(true, w, h), below = tryLayout(false, w, h);
+  if(atSide >= below) tryLayout(true, w, h);
 }
 function resize(){
   if(!host) return;
   const w = host.clientWidth, h = host.clientHeight;
   if(!w || !h) return;
   R.setSize(w, h, false);
-  layoutFor(w, h);
-  fitShift();
+  arrange();
 }
 /* 畫面收窄時整個資料夾往右移：在靜止姿勢下把十張彩色頁投影到螢幕取外框，
-   外框碰到首屏副標（桃紅字與日期）的任何一行就往右移，移到剛好不碰為止；
+   外框碰到首屏副標（桃紅字與日期）的任何一行就往右移，移到剛好不碰為止；放在字右邊時，整塊大標與副標的範圍也不准碰（容許右緣 12px 的交疊）。
    最多移到頁扇右緣超出畫面一成，再多就停在那裡，剩下的交給標籤自己讓開。白色封面不算，它本來就墊在字後面 */
 let shiftX = 0;
 function hull(pts){
@@ -2568,7 +2612,11 @@ function hitsText(){
   const L = F.subLines;
   if(!L || !L.length) return false;
   const H = pagesHull();
-  return L.some(r => sat(H, [[r.l - 6, r.t], [r.r + 6, r.t], [r.r + 6, r.b], [r.l - 6, r.b]]));
+  if(L.some(r => sat(H, [[r.l - 6, r.t], [r.r + 6, r.t], [r.r + 6, r.b], [r.l - 6, r.b]]))) return true;
+  const t = side && document.getElementById('heroTitle');
+  if(!t) return false;
+  const x0 = t.offsetLeft, y0 = t.offsetTop, x1 = x0 + t.offsetWidth - 12, y1 = y0 + t.offsetHeight;
+  return sat(H, [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]);
 }
 function fitShift(){
   shiftX = 0;
@@ -2710,8 +2758,12 @@ const API = {
     host = null;
   },
 };
-API.refit = () => { if(host && R) fitShift(); };
-API.fitInfo = () => ({shiftX: +shiftX.toFixed(3), clear: !hitsText(), prog: +prog.toFixed(4)});
+API.refit = () => { if(host && R) arrange(); };
+API.fitInfo = () => {
+  pose(0, .2, 0, false, false);
+  const H = pagesHull(), xs = H.map(p => p[0]), ys = H.map(p => p[1]);
+  return {shiftX: +shiftX.toFixed(3), clear: !hitsText(), prog: +prog.toFixed(4), box: [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)].map(Math.round), W: host.clientWidth, H: host.clientHeight};
+};
 window.FITGL = API;
 if(F.pendingHost && document.body.contains(F.pendingHost)){ const h = F.pendingHost; F.pendingHost = null; API.mount(h); }
 </script>
