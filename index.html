@@ -275,6 +275,25 @@ button.stat:hover b{color:var(--mag)}
 .gthumbs{display:flex;gap:8px;margin-top:10px}
 .gthumbs button{flex:0 0 clamp(70px,9vw,120px);aspect-ratio:4/3;background:var(--g);border:1.5px solid var(--line);position:relative;font:300 10px var(--f-asc);letter-spacing:.2em;color:var(--navy);transition:transform .4s var(--spring)}
 .gthumbs button.on{border-color:var(--mag);transform:translateY(-4px)}
+/* 有真的作品圖時：大圖完整顯示在漸層底上，左下角小標寫第幾張，左右有切換鈕；縮圖列可橫捲 */
+.gmain.has{cursor:default}
+.gmain .gimg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1;transition:opacity .3s}
+.gmain .gimg.fade{opacity:.25}
+.glab.cap{position:absolute;left:12px;bottom:12px;padding:6px 10px;font:300 11px/1 var(--f-asc);letter-spacing:.2em}
+.gnav{position:absolute;top:50%;z-index:3;width:44px;height:44px;margin-top:-22px;background:#fff;border:1.5px solid var(--line);font:400 24px/1 var(--f-asc);color:var(--navy);transition:background .2s,color .2s}
+.gnav:hover{background:var(--navy);color:#fff}
+.gnav.prev{left:12px}.gnav.next{right:12px}
+.gthumbs.pics{overflow-x:auto;padding:6px 2px 10px;scrollbar-width:thin}
+.gthumbs.pics button{background:#fff;padding:0;overflow:hidden}
+.gthumbs.pics button img{display:block;width:100%;height:100%;object-fit:cover}
+/* 作品封面：作品條展開、藝術家頁小卡上鋪第一張作品圖，雙色調，滑過轉彩色；字的白框疊在上面 */
+.scover{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .7s;pointer-events:none}
+.scover img{width:100%;height:100%;object-fit:cover}
+.strip.on .scover.ready,.mini .scover.ready{opacity:1}
+.strip .sopen{z-index:2}
+.mini .stt,.mini .sst,.mini .sar,.mini .smd{position:relative;z-index:2}
+.strip.on:hover .scover img,.mini:hover .scover img{filter:none;mix-blend-mode:normal}
+.strip.on:hover .scover::after,.mini:hover .scover::after{opacity:0}
 .wp-body{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(24px,4vw,60px);align-items:start;margin-top:10px}
 .wp-body .doc{margin-top:40px}
 .chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
@@ -723,7 +742,71 @@ const WORKS = [
    "A03"
   ],
   "video": false,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W01/01.webp",
+    "cover": "img/W01/01-c.webp",
+    "thumb": "img/W01/01-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W01/02.webp",
+    "cover": "img/W01/02-c.webp",
+    "thumb": "img/W01/02-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W01/03.webp",
+    "cover": "img/W01/03-c.webp",
+    "thumb": "img/W01/03-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W01/04.webp",
+    "cover": "img/W01/04-c.webp",
+    "thumb": "img/W01/04-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W01/05.webp",
+    "cover": "img/W01/05-c.webp",
+    "thumb": "img/W01/05-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W01/06.webp",
+    "cover": "img/W01/06-c.webp",
+    "thumb": "img/W01/06-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W01/07.webp",
+    "cover": "img/W01/07-c.webp",
+    "thumb": "img/W01/07-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W01/08.webp",
+    "cover": "img/W01/08-c.webp",
+    "thumb": "img/W01/08-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W01/09.webp",
+    "cover": "img/W01/09-c.webp",
+    "thumb": "img/W01/09-t.webp",
+    "w": 1600,
+    "h": 1069
+   }
+  ],
   "meta": [
    [
     "媒材",
@@ -756,7 +839,8 @@ const WORKS = [
     "The artists were inspired by the simple routines of buying and selling, and by how these everyday activities connect people to food, family, and those they care for. Through this artwork, they wanted to celebrate food as an important part of Taiwanese culture and transform ordinary market experiences into accessible public art.",
     "The title, One Stop, All Together, also reflects their collaboration as artists from different countries, united by one goal: to share their perspectives, work together, and create an artwork that celebrates culture, community, and connection."
    ]
-  ]
+  ],
+  "imgs": 9
  },
  {
   "id": "W02",
@@ -768,7 +852,50 @@ const WORKS = [
    "A04"
   ],
   "video": false,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W02/01.webp",
+    "cover": "img/W02/01-c.webp",
+    "thumb": "img/W02/01-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W02/02.webp",
+    "cover": "img/W02/02-c.webp",
+    "thumb": "img/W02/02-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W02/03.webp",
+    "cover": "img/W02/03-c.webp",
+    "thumb": "img/W02/03-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W02/04.webp",
+    "cover": "img/W02/04-c.webp",
+    "thumb": "img/W02/04-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W02/05.webp",
+    "cover": "img/W02/05-c.webp",
+    "thumb": "img/W02/05-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W02/06.webp",
+    "cover": "img/W02/06-c.webp",
+    "thumb": "img/W02/06-t.webp",
+    "w": 1600,
+    "h": 1069
+   }
+  ],
   "meta": [
    [
     "媒材",
@@ -805,7 +932,8 @@ const WORKS = [
     "Chifeng Street in the Zhongshan District possesses a profound historical context rooted in metalworking and blacksmithing industries, where commercial activities have long been inextricably linked with metallic materials. Originally serving as the core of the \"Blacksmith Street,\" the area evolved into a hub for automobile parts and repair services over time. Today, this district presents a unique landscape where traditional industries and contemporary art spaces coexist, weaving a dialogue between past and present within an industrial foundation.",
     "Local merchants specialize in the repair and reassembly of second-hand parts, allowing materials to regain circulation value through restoration. This practice of meticulous regeneration of imported components forms the core philosophy of the work: the aesthetics of material circulation and repair. In Chifeng Street, \"repair\" is not merely functional recovery, but an artistic metaphor connecting the past and the future."
    ]
-  ]
+  ],
+  "imgs": 6
  },
  {
   "id": "W03",
@@ -817,7 +945,43 @@ const WORKS = [
    "A03"
   ],
   "video": false,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W03/01.webp",
+    "cover": "img/W03/01-c.webp",
+    "thumb": "img/W03/01-t.webp",
+    "w": 1600,
+    "h": 1068
+   },
+   {
+    "src": "img/W03/02.webp",
+    "cover": "img/W03/02-c.webp",
+    "thumb": "img/W03/02-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W03/03.webp",
+    "cover": "img/W03/03-c.webp",
+    "thumb": "img/W03/03-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W03/04.webp",
+    "cover": "img/W03/04-c.webp",
+    "thumb": "img/W03/04-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W03/05.webp",
+    "cover": "img/W03/05-c.webp",
+    "thumb": "img/W03/05-t.webp",
+    "w": 1600,
+    "h": 1069
+   }
+  ],
   "meta": [
    [
     "媒材",
@@ -852,7 +1016,8 @@ const WORKS = [
     "For this work, shiroooo11 combined colorful floral tiles, commonly found in Taiwan's modern architecture, with ramen and flower sushi, iconic elements of Japanese food culture. The sushi fish travels between Taiwanese and Japanese cultural imagery, symbolizing how the two cultures meet and influence one another in everyday life, gradually shaping a cultural landscape unique to Taiwan.",
     "The fish and noodles in the work also carry wishes of good fortune. The fish symbolizes abundance and prosperity, echoing the Chinese saying \"may you have surplus year after year.\" In both Chinese and Japanese cultures, noodles represent peace, good fortune, and lasting friendship. Through these two elements, the artist hopes to express blessings for cultural exchange and wishes for this cross-cultural friendship to endure for years to come."
    ]
-  ]
+  ],
+  "imgs": 5
  },
  {
   "id": "W04",
@@ -864,7 +1029,36 @@ const WORKS = [
    "A03"
   ],
   "video": false,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W04/01.webp",
+    "cover": "img/W04/01-c.webp",
+    "thumb": "img/W04/01-t.webp",
+    "w": 1600,
+    "h": 1068
+   },
+   {
+    "src": "img/W04/02.webp",
+    "cover": "img/W04/02-c.webp",
+    "thumb": "img/W04/02-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W04/03.webp",
+    "cover": "img/W04/03-c.webp",
+    "thumb": "img/W04/03-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W04/04.webp",
+    "cover": "img/W04/04-c.webp",
+    "thumb": "img/W04/04-t.webp",
+    "w": 1600,
+    "h": 1069
+   }
+  ],
   "meta": [
    [
     "媒材",
@@ -895,7 +1089,8 @@ const WORKS = [
     "She sought to bring this feeling into the mural, creating a kind of daydream where the city and the forest blend together.",
     "When designing the mural, the artist deliberately chose colors found in the surrounding streets, hoping the artwork would blend naturally into the urban landscape."
    ]
-  ]
+  ],
+  "imgs": 4
  },
  {
   "id": "W05",
@@ -907,7 +1102,57 @@ const WORKS = [
    "A07"
   ],
   "video": false,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W05/01.webp",
+    "cover": "img/W05/01-c.webp",
+    "thumb": "img/W05/01-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W05/02.webp",
+    "cover": "img/W05/02-c.webp",
+    "thumb": "img/W05/02-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W05/03.webp",
+    "cover": "img/W05/03-c.webp",
+    "thumb": "img/W05/03-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W05/04.webp",
+    "cover": "img/W05/04-c.webp",
+    "thumb": "img/W05/04-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W05/05.webp",
+    "cover": "img/W05/05-c.webp",
+    "thumb": "img/W05/05-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W05/06.webp",
+    "cover": "img/W05/06-c.webp",
+    "thumb": "img/W05/06-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W05/07.webp",
+    "cover": "img/W05/07-c.webp",
+    "thumb": "img/W05/07-t.webp",
+    "w": 1600,
+    "h": 1069
+   }
+  ],
   "meta": [
    [
     "展出地點",
@@ -926,7 +1171,8 @@ const WORKS = [
   "desc": [
    [],
    []
-  ]
+  ],
+  "imgs": 7
  },
  {
   "id": "W06",
@@ -938,7 +1184,50 @@ const WORKS = [
    "A08"
   ],
   "video": false,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W06/01.webp",
+    "cover": "img/W06/01-c.webp",
+    "thumb": "img/W06/01-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W06/02.webp",
+    "cover": "img/W06/02-c.webp",
+    "thumb": "img/W06/02-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W06/03.webp",
+    "cover": "img/W06/03-c.webp",
+    "thumb": "img/W06/03-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W06/04.webp",
+    "cover": "img/W06/04-c.webp",
+    "thumb": "img/W06/04-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W06/05.webp",
+    "cover": "img/W06/05-c.webp",
+    "thumb": "img/W06/05-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W06/06.webp",
+    "cover": "img/W06/06-c.webp",
+    "thumb": "img/W06/06-t.webp",
+    "w": 1201,
+    "h": 1600
+   }
+  ],
   "meta": [
    [
     "媒材",
@@ -981,7 +1270,8 @@ const WORKS = [
     "The resulting photographs, printed on aluminium, form a visual diary of the flower's journey and the people who briefly became part of it. More than a collection of portraits, the work documents fleeting connections and the ways an unusual object can temporarily transform relationships between strangers and their surroundings.",
     "This project marks the beginning of an ongoing series in which a new flower will be created for each place, drawing inspiration from its local materials, visual culture and social context. Each flower will become a starting point for new encounters, allowing the work to evolve through the people and places it engages with."
    ]
-  ]
+  ],
+  "imgs": 6
  },
  {
   "id": "W07",
@@ -993,7 +1283,29 @@ const WORKS = [
    "A08"
   ],
   "video": false,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W07/01.webp",
+    "cover": "img/W07/01-c.webp",
+    "thumb": "img/W07/01-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W07/02.webp",
+    "cover": "img/W07/02-c.webp",
+    "thumb": "img/W07/02-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W07/03.webp",
+    "cover": "img/W07/03-c.webp",
+    "thumb": "img/W07/03-t.webp",
+    "w": 1600,
+    "h": 1068
+   }
+  ],
   "meta": [
    [
     "媒材",
@@ -1036,7 +1348,8 @@ const WORKS = [
     "The vibrant colour palette is also a tribute to Taipei's colourful streets, creative spirit and visual energy. Rather than offering a detailed representation of the city, Macera chose a simple and playful image that brings together two contrasting aspects of her experience: the intensity of the tropical climate and the beauty of the surrounding vegetation.",
     "This mural is a personal interpretation of her encounter with Taiwan. It reflects the process of adapting to an unfamiliar environment and discovering beauty in what first seems difficult."
    ]
-  ]
+  ],
+  "imgs": 3
  },
  {
   "id": "W08",
@@ -1048,7 +1361,127 @@ const WORKS = [
    "A01"
   ],
   "video": false,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W08/01.webp",
+    "cover": "img/W08/01-c.webp",
+    "thumb": "img/W08/01-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/02.webp",
+    "cover": "img/W08/02-c.webp",
+    "thumb": "img/W08/02-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/03.webp",
+    "cover": "img/W08/03-c.webp",
+    "thumb": "img/W08/03-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/04.webp",
+    "cover": "img/W08/04-c.webp",
+    "thumb": "img/W08/04-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/05.webp",
+    "cover": "img/W08/05-c.webp",
+    "thumb": "img/W08/05-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/06.webp",
+    "cover": "img/W08/06-c.webp",
+    "thumb": "img/W08/06-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/07.webp",
+    "cover": "img/W08/07-c.webp",
+    "thumb": "img/W08/07-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/08.webp",
+    "cover": "img/W08/08-c.webp",
+    "thumb": "img/W08/08-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/09.webp",
+    "cover": "img/W08/09-c.webp",
+    "thumb": "img/W08/09-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/10.webp",
+    "cover": "img/W08/10-c.webp",
+    "thumb": "img/W08/10-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/11.webp",
+    "cover": "img/W08/11-c.webp",
+    "thumb": "img/W08/11-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/12.webp",
+    "cover": "img/W08/12-c.webp",
+    "thumb": "img/W08/12-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/13.webp",
+    "cover": "img/W08/13-c.webp",
+    "thumb": "img/W08/13-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/14.webp",
+    "cover": "img/W08/14-c.webp",
+    "thumb": "img/W08/14-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/15.webp",
+    "cover": "img/W08/15-c.webp",
+    "thumb": "img/W08/15-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/16.webp",
+    "cover": "img/W08/16-c.webp",
+    "thumb": "img/W08/16-t.webp",
+    "w": 1600,
+    "h": 1069
+   },
+   {
+    "src": "img/W08/17.webp",
+    "cover": "img/W08/17-c.webp",
+    "thumb": "img/W08/17-t.webp",
+    "w": 1600,
+    "h": 1069
+   }
+  ],
   "meta": [
    [
     "媒材",
@@ -1083,7 +1516,8 @@ const WORKS = [
     "Visually, madkidgenius chose not to mask or cover up the playground’s raw concrete surface. He has always been drawn to the unrefined, heavy weight of 1950s Brutalism and béton brut. Using a mix of exterior acrylics, he applied vibrant, high-energy colors directly onto the weathered concrete, allowing the art and the site’s natural texture to coexist.",
     "Ultimately, this piece is the artist’s personal loop back to what started it all: a love for fine art, pop culture, and playful storytelling. It takes a fading piece of local memory and adds a bold, fresh layer to the park, creating a fun checkpoint where older generations can reminisce and new kids can simply enjoy playing."
    ]
-  ]
+  ],
+  "imgs": 17
  },
  {
   "id": "W09",
@@ -1095,7 +1529,29 @@ const WORKS = [
    "A05"
   ],
   "video": true,
-  "imgs": 3,
+  "pics": [
+   {
+    "src": "img/W09/01.webp",
+    "cover": "img/W09/01-c.webp",
+    "thumb": "img/W09/01-t.webp",
+    "w": 1062,
+    "h": 1396
+   },
+   {
+    "src": "img/W09/02.webp",
+    "cover": "img/W09/02-c.webp",
+    "thumb": "img/W09/02-t.webp",
+    "w": 1321,
+    "h": 1600
+   },
+   {
+    "src": "img/W09/03.webp",
+    "cover": "img/W09/03-c.webp",
+    "thumb": "img/W09/03-t.webp",
+    "w": 1383,
+    "h": 1600
+   }
+  ],
   "meta": [
    [
     "媒材",
@@ -1120,7 +1576,8 @@ const WORKS = [
     "Conceived as a collective archive of breath, The Breathing File by Juan Zamora is a DIY bio-art workshop held at the Taipei Youth Ideal Living Festival. Participants captured their own exhalations in Petri dishes prepared with a culture medium, allowing them to watch and listen to the invisible life that inhabits them grow over time.",
     "Over the following weeks, each culture developed shapes and color patterns unique to each person, a magical process of preserving and sharing our inner life. Together, these dishes form a living archive, which the artist translated into music and video using a custom-built MIDI program."
    ]
-  ]
+  ],
+  "imgs": 3
  },
  {
   "id": "W10",
@@ -1132,7 +1589,7 @@ const WORKS = [
    "A06"
   ],
   "video": true,
-  "imgs": 3,
+  "pics": [],
   "meta": [
    [
     "媒材",
@@ -1161,7 +1618,8 @@ const WORKS = [
    [
     "A foreigner arrives in Taipei, finds a small folk instrument on the street, and follows it into the city’s hidden corners, layered past, and daily life, by day and deep into the night. He doesn’t find where it came from, but by dawn, he no longer needs the answer."
    ]
-  ]
+  ],
+  "imgs": 0
  }
 ];
 /* @@DATA-END */
@@ -1403,10 +1861,28 @@ function workLines(w){
   return `<span class="stt${lat(tm) ? ' lat' : ''}">${esc(tm)}</span>${ts ? `<span class="sst" lang="en">${esc(ts)}</span>` : ''}
     <span class="sar">${w.artists.map(id => esc((artist(id) || {}).name || id)).join(' · ')}</span>${md ? `<span class="smd">${esc(md)}</span>` : ''}`;
 }
+/* 作品封面：第一張作品圖，雙色調、滑過轉彩色。作品條要展開才載入（lazy 為假時先只記網址），小卡直接延遲載入 */
+function cover(w, now){
+  const p = (w.pics || [])[0];
+  if(!p) return '';
+  return now ? `<span class="scover duo ready"><img src="${p.cover}" alt="" loading="lazy" decoding="async"></span>`
+             : `<span class="scover duo" data-src="${p.cover}"></span>`;
+}
+function loadCover(el){
+  const c = el && el.querySelector('.scover[data-src]');
+  if(!c) return;
+  const img = new Image();
+  img.decoding = 'async';
+  img.onload = () => c.classList.add('ready');
+  img.src = c.dataset.src;
+  img.alt = '';
+  c.appendChild(img);
+  c.removeAttribute('data-src');
+}
 function strip(w, i){
   const tm = titleMain(w);
   return `<a class="strip sel${i === 0 ? ' on' : ''}" href="#/works/${w.id}" data-i="${i}" style="--g:${grad(i)}">
-    <span class="sgrain"></span>${BAND[i] ? '<span class="sband"></span>' : ''}
+    ${cover(w, false)}<span class="sgrain"></span>${BAND[i] ? '<span class="sband"></span>' : ''}
     <span class="sid">${w.id}${w.video ? ' ▶' : ''}</span>
     <span class="slab${lat(tm) ? ' lat' : ''}" aria-hidden="true">${esc(tm)}</span>
     <span class="sopen"><span class="sk">${w.video ? '▶ VIDEO' : 'FILE'} / ${w.id}</span>${workLines(w)}<span class="sgo">${SITE.open}</span></span>
@@ -1438,7 +1914,7 @@ function renderArtist(r){
     ${hasBio ? `<section class="doc rv">${H4}<div class="doc-bar"><span>about_${a.id}.txt</span><span>${SITE.bio[0]} / ${SITE.bio[1]}</span></div><div class="cols${a.bio[0].length && a.bio[1].length ? '' : ' one'}">${a.bio[0].length ? `<div>${paras(a.bio[0])}</div>` : ''}${a.bio[1].length ? `<div>${paras(a.bio[1], true)}</div>` : ''}</div></section>` : ''}
     ${vw ? `<a class="vbox rv" href="#/works/${vw.id}" style="--g:${grad(WORKS.indexOf(vw), '120deg')}"><span class="sgrain"></span><span class="play"><b>▶</b><span>${esc(titleMain(vw))}<br>${SITE.video[0]} <span lang="en">${SITE.video[1]}</span></span></span></a>` : ''}
     <h2 class="sub-h rv">${SITE.thisWorks[0]}<em lang="en">${SITE.thisWorks[1]}</em><span class="n">[${pad(ws.length)}]</span></h2>
-    <div class="minis">${ws.map(w => `<a class="mini rv sel" href="#/works/${w.id}" style="--g:${grad(WORKS.indexOf(w))}"><span class="sgrain"></span><span class="sid">${w.id}${w.video ? ' ▶' : ''}</span>${workLines(w)}</a>`).join('')}</div>
+    <div class="minis">${ws.map(w => `<a class="mini rv sel" href="#/works/${w.id}" style="--g:${grad(WORKS.indexOf(w))}">${cover(w, true)}<span class="sgrain"></span><span class="sid">${w.id}${w.video ? ' ▶' : ''}</span>${workLines(w)}</a>`).join('')}</div>
     <nav class="pn"><a href="#/artists/${prev.id}"><small>&lt; PREV / ${prev.id}</small><b>${esc(prev.name)}</b></a><a href="#/artists/${next.id}"><small>NEXT / ${next.id} &gt;</small><b>${esc(next.name)}</b></a></nav>
   </article>`;
 }
@@ -1459,8 +1935,15 @@ function renderWork(r){
   const n = WORKS.length, i = WORKS.indexOf(w), prev = WORKS[(i - 1 + n) % n], next = WORKS[(i + 1) % n];
   const tm = titleMain(w), ts = titleSub(w);
   const chips = w.artists.map(id => { const a = artist(id); return `<a class="chip sel" href="#/artists/${id}">${portrait(a)}<b>${esc(a.name)}</b></a>`; }).join('');
-  const thumbs = Array.from({length: w.imgs}, (_, k) => `<button class="${k === 0 ? 'on' : ''}" data-k="${k}" style="--g:${grad(i, (180 + k * 50) + 'deg')}" aria-label="${SITE.img} ${k + 1}">${k + 1}</button>`).join('');
-  const lab = w.video ? `<b>▶</b>${esc(tm)}<br>${SITE.video[0]} <span lang="en">${SITE.video[1]}</span>` : `${SITE.img} 1 / ${w.imgs}`;
+  /* 有作品圖就放真的圖：大圖完整顯示不裁切，縮圖可橫捲；還沒有圖的保留漸層佔位 */
+  const P = w.pics || [];
+  const thumbs = P.length
+    ? P.map((p, k) => `<button class="${k === 0 ? 'on' : ''}" data-k="${k}" aria-label="${SITE.img} ${k + 1}"><img src="${p.thumb}" alt="" loading="lazy" decoding="async"></button>`).join('')
+    : Array.from({length: w.imgs}, (_, k) => `<button class="${k === 0 ? 'on' : ''}" data-k="${k}" style="--g:${grad(i, (180 + k * 50) + 'deg')}" aria-label="${SITE.img} ${k + 1}">${k + 1}</button>`).join('');
+  const lab = w.video && !P.length ? `<b>▶</b>${esc(tm)}<br>${SITE.video[0]} <span lang="en">${SITE.video[1]}</span>` : `${SITE.img} 1 / ${P.length || w.imgs}`;
+  const gmain = P.length
+    ? `<div class="gmain has" id="gmain" data-n="${P.length}" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}<img class="gimg" id="gimg" src="${P[0].src}" alt="${esc(tm)} ${SITE.img} 1" decoding="async"><span class="glab cap" id="glab">${lab}</span>${P.length > 1 ? '<button class="gnav prev" aria-label="上一張 Previous">‹</button><button class="gnav next" aria-label="下一張 Next">›</button>' : ''}</div>`
+    : `<div class="gmain" id="gmain" data-n="${w.imgs}" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}<span class="sgrain"></span><span class="glab" id="glab">${lab}</span></div>`;
   const meta = w.meta.map(m => {
     const v = bil([m[2], m[3]]);
     const val = m[1] === 'Location' && m[2] ? `<a class="map" href="${esc(mapUrl(m[2]))}" target="_blank" rel="noopener">${v}<small>Google 地圖 ↗</small></a>` : v;
@@ -1471,8 +1954,8 @@ function renderWork(r){
     <div class="crumb" data-scr>&gt; PATH: ./works/${w.id}/${esc(U(w.title[1] || w.title[0]))}</div>
     <header class="wp-head rv"><span class="aid">${w.id}${w.video ? ' · VIDEO' : ''}</span><h1 class="wp-title${lat(tm) ? ' lat' : ''}">${esc(tm)}</h1>${ts ? `<p class="wp-sub" lang="en">${esc(ts)}</p>` : ''}</header>
     <section class="gal rv">
-      <div class="gmain" id="gmain" data-n="${w.imgs}" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}<span class="sgrain"></span><span class="glab" id="glab">${lab}</span></div>
-      ${w.imgs > 1 ? `<div class="gthumbs" id="gthumbs">${thumbs}</div>` : ''}
+      ${gmain}
+      ${(P.length || w.imgs) > 1 ? `<div class="gthumbs${P.length ? ' pics' : ''}" id="gthumbs">${thumbs}</div>` : ''}
     </section>
     <section class="wp-body">
       <div>
@@ -1688,6 +2171,7 @@ function initArtistFloat(){
 /* 作品頁條：滑過（或鍵盤移到）只微微展開；點一下才整張展開，展開後再點才進作品頁 */
 function openStrip(s){
   $$('.strip', s.parentNode).forEach(x => { x.classList.toggle('on', x === s); x.classList.remove('peek'); });
+  loadCover(s);
 }
 function initShelf(){
   const sh = $('#shelf');
@@ -1698,6 +2182,7 @@ function initShelf(){
     s.addEventListener('focus', () => peek(s));
   });
   if(FINE) sh.addEventListener('pointerleave', () => peek(null));
+  loadCover($('.strip.on', sh));
 }
 
 /* ===== 藝術家內頁：頭像拉一條貝茲線到名字 ===== */
@@ -1738,18 +2223,28 @@ function initTether(){
 function initGallery(){
   const g = $('#gmain');
   if(!g) return;
-  const n = +g.dataset.n, i = +g.dataset.i, lab = $('#glab'), th = $('#gthumbs');
+  const n = +g.dataset.n, i = +g.dataset.i, lab = $('#glab'), th = $('#gthumbs'), img = $('#gimg');
   if(n < 2) return;
+  const P = WORKS[i].pics || [], tm = titleMain(WORKS[i]);
   let k = 0;
+  const preload = j => { const p = P[(j + n) % n]; if(p){ const x = new Image(); x.src = p.src; } };
   const show = j => {
     k = (j + n) % n;
-    g.style.setProperty('--g', grad(i, (180 + k * 50) + 'deg'));
+    if(img && P[k]){
+      img.classList.add('fade');
+      const next = new Image();
+      next.onload = () => { img.src = P[k].src; img.alt = `${tm} ${SITE.img} ${k + 1}`; img.classList.remove('fade'); };
+      next.src = P[k].src;
+      preload(k + 1);
+    } else g.style.setProperty('--g', grad(i, (180 + k * 50) + 'deg'));
     lab.textContent = `${SITE.img} ${k + 1} / ${n}`;
-    if(th) $$('button', th).forEach((b, x) => b.classList.toggle('on', x === k));
+    if(th) $$('button', th).forEach((b, x) => { b.classList.toggle('on', x === k); if(x === k && P.length) b.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: RM ? 'auto' : 'smooth'}); });
   };
+  if(P.length) preload(1);
   if(th) th.addEventListener('click', e => { const b = e.target.closest('[data-k]'); if(b) show(+b.dataset.k); });
+  g.addEventListener('click', e => { const b = e.target.closest('.gnav'); if(b) show(k + (b.classList.contains('next') ? 1 : -1)); });
   let sx = null;
-  g.addEventListener('pointerdown', e => { sx = e.clientX; });
+  g.addEventListener('pointerdown', e => { if(!e.target.closest('.gnav')) sx = e.clientX; });
   g.addEventListener('pointerup', e => { if(sx == null) return; const d = e.clientX - sx; sx = null; if(Math.abs(d) > 40) show(k + (d < 0 ? 1 : -1)); });
   document.onkeydown = e => { if(!document.body.contains(g)) return; if(e.key === 'ArrowRight') show(k + 1); if(e.key === 'ArrowLeft') show(k - 1); };
 }
