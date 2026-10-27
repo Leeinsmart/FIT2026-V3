@@ -291,6 +291,9 @@ button.stat:hover b{color:var(--mag)}
 .cl .ck em{font-style:normal}
 .cl .cv{color:var(--navy)}
 .cl .cv [lang=en]{color:var(--grey)}
+.cl .map{color:var(--navy);text-decoration:underline;text-decoration-color:var(--mag);text-underline-offset:3px;transition:color .2s}
+.cl .map:hover{color:var(--mag)}
+.cl .map small{font:400 10px/1 var(--f-asc);letter-spacing:.14em;color:var(--mag);margin-left:8px;white-space:nowrap}
 .cl.dim,.cl.ab{font:300 12px/2 var(--f-asc);letter-spacing:.2em;color:var(--lav)}
 @media (max-width:820px){.wp-body{grid-template-columns:1fr}}
 
@@ -1441,6 +1444,15 @@ function renderArtist(r){
 }
 
 /* ===== 作品內頁 ===== */
+/* 展出地點連到 Google 地圖，開新分頁。有門牌或巷號的地址用直接標點；地名用搜尋；
+   同名地點有好幾個的，指定 Google 地點代號（2026-10-27 逐一在 Google 地圖查過：華山公園搜出兩個同名，指定市民大道那個）。
+   地點沒寫城市的補「臺北市」，不補區名，區由 Google 判斷（赤峰街47巷2號實際在大同區） */
+const PLACE_ID = {'華山公園': 'ChIJXak7OW6pQjQR1S6DrtUOxl8'};
+function mapUrl(loc){
+  const q = /^(臺北|台北)/.test(loc) ? loc : '臺北市' + loc;
+  if(/[0-9０-９]\s*(號|巷|弄)/.test(loc)) return 'https://www.google.com/maps/place/' + encodeURIComponent(q);
+  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q) + (PLACE_ID[loc] ? '&query_place_id=' + PLACE_ID[loc] : '');
+}
 function renderWork(r){
   const w = workById(r.id);
   if(!w) return `<article class="page"><p class="crumb">&gt; ${esc(r.id)} not found</p></article>`;
@@ -1449,7 +1461,11 @@ function renderWork(r){
   const chips = w.artists.map(id => { const a = artist(id); return `<a class="chip sel" href="#/artists/${id}">${portrait(a)}<b>${esc(a.name)}</b></a>`; }).join('');
   const thumbs = Array.from({length: w.imgs}, (_, k) => `<button class="${k === 0 ? 'on' : ''}" data-k="${k}" style="--g:${grad(i, (180 + k * 50) + 'deg')}" aria-label="${SITE.img} ${k + 1}">${k + 1}</button>`).join('');
   const lab = w.video ? `<b>▶</b>${esc(tm)}<br>${SITE.video[0]} <span lang="en">${SITE.video[1]}</span>` : `${SITE.img} 1 / ${w.imgs}`;
-  const meta = w.meta.map(m => `<div class="cl in"><span class="ck">${esc(m[0])} <em lang="en">${esc(m[1])}</em>:</span> <span class="cv">"${bil([m[2], m[3]])}"</span>,</div>`).join('');
+  const meta = w.meta.map(m => {
+    const v = bil([m[2], m[3]]);
+    const val = m[1] === 'Location' && m[2] ? `<a class="map" href="${esc(mapUrl(m[2]))}" target="_blank" rel="noopener">${v}<small>Google 地圖 ↗</small></a>` : v;
+    return `<div class="cl in"><span class="ck">${esc(m[0])} <em lang="en">${esc(m[1])}</em>:</span> <span class="cv">"${val}"</span>,</div>`;
+  }).join('');
   const hasDesc = w.desc[0].length || w.desc[1].length;
   return `<article class="page wp">
     <div class="crumb" data-scr>&gt; PATH: ./works/${w.id}/${esc(U(w.title[1] || w.title[0]))}</div>
