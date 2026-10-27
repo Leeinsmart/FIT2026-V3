@@ -125,6 +125,8 @@ button.stat:hover b{color:var(--mag)}
 /* 內容區蓋一層半透明白，背景字元只在左右邊緣露出，像海報 */
 .sec,.stats,.page{background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.86) 9%,rgba(255,255,255,.86) 91%,rgba(255,255,255,0))}
 .sec{position:relative;padding:clamp(80px,13vh,150px) var(--gut) clamp(40px,8vh,90px)}
+.sec.intro{padding-top:clamp(30px,6vh,70px);padding-bottom:0}
+.sec.intro .doc{margin-top:0}
 .sh{position:relative;display:flex;align-items:flex-end;gap:18px;border-bottom:1.5px solid var(--line);padding-bottom:16px;margin-bottom:10px}
 .sh .k{position:absolute;left:0;top:-30px;font:300 11.5px/1 var(--f-asc);letter-spacing:.26em;color:var(--lav)}
 .sh h2{margin:0;font:700 clamp(34px,4.4vw,64px)/1 var(--f-zh);color:var(--navy);letter-spacing:.08em}
@@ -443,7 +445,16 @@ const PROGRAM = {
   "2026.07.01-09.30",
   "2026.07.01-09.30"
  ],
- "intro": null,
+ "intro": [
+  [
+   "「2026 臺北資料夾」是由臺北市政府青年局主辦、藝高文創股份有限公司執行，透過公開徵選，邀請八位來自世界各地的優秀青年藝術家來到臺北，展開為期 1 至 3 個月的駐村創作。",
+   "駐村期間，藝術家將透過城市探索、文化體驗與在地交流，與臺北展開跨文化對話，從中激發新的創作靈感，並與這座城市建立獨特的連結。"
+  ],
+  [
+   "File in Taipei 2026 is an international residency program organized by the Department for Youth, Taipei City Government, and executed by IEgoArt Inc. Through an open call, eight young artists from around the world are invited to create in Taipei for one to three months.",
+   "Through urban exploration, cultural experiences, and local exchange, artists engage in cross-cultural dialogue, find new inspiration, and build a lasting connection with the city."
+  ]
+ ],
  "menu": [
   [
    "藝術家",
@@ -476,8 +487,8 @@ const PROGRAM = {
    "The International Young Artist Residency Program - File in Taipei 2026"
   ],
   [
-   "© 2026 臺北市政府青年局　版權所有　／　All rights reserved.",
-   ""
+   "© 2026 臺北市政府青年局 All rights reserved.",
+   null
   ],
   [
    "聯絡信箱：iegoart.taipeifile2026@gmail.com",
@@ -597,14 +608,26 @@ const ARTISTS = [
  },
  {
   "id": "A05",
-  "name": "Juan",
-  "born": null,
-  "nat": null,
-  "bio": [
-   [],
-   []
+  "name": "Juan Zamora",
+  "born": "1982",
+  "nat": [
+   "西班牙",
+   "Spain"
   ],
-  "links": [],
+  "bio": [
+   [
+    "1982 年生於西班牙馬德里。以生態視角遊走於藝術、音樂、設計、科學、教育與社會實踐之間，進行跨領域工作。2006 年取得馬德里康普頓斯大學（Complutense University of Madrid）藝術學士學位，2008 年取得 European University 藝術碩士學位。曾獲西班牙全國性獎項 ABC、GENERACIONES、BBVA 及 PRINCESS OF GIRONA OF ARTS。"
+   ],
+   [
+    "Born in 1982, Madrid. Working in the interdisciplinary space of art, music, design, science, pedagogy and social practice through an ecological perspective. Holds a BFA degree from the Complutense University of Madrid (2006) and a MFA from the European University (2008). Honored with the National Spanish Awards ABC, GENERACIONES, BBVA and PRINCESS OF GIRONA OF ARTS."
+   ]
+  ],
+  "links": [
+   [
+    "Instagram",
+    "https://www.instagram.com/jvanzamora/"
+   ]
+  ],
   "photo": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAHgAeADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzq8iCTNjgZqSxOJABUmoR5yRUNhuEnSvPOrqdfpQJK4rsdOTgGuX0WBvlyprr7GB9oOCPwrNmiNKBOlaVtH0qC2tmO3ita3t8YqUgJ7aLgVoRx4FQ21ux7Vfjix2rWMAuMCcVHJF/s1fCKB0zSNEGHAxV8grmFcQ5B4xWdNCBmuguoD2Gazp4gQcrnNRKNh3MYx0ySMYJHar0sIHAFV3jIGCv41m0BjXXIIrGvIg4I6EV0N7HjHFY069RigRz1whB60yWPEOTV+eIA8dDVO7bbHtz3oGcrrqgKze4FcDrQVFOK7zxBOPIKcZ3bs/hivN9auN7dc810UkTIwLt8k+9VKmuG3N1qGu+K0OSbuwpMUtFUZiYopaTvQMKd2o2nZmkzQPYKSlopkhRQKKBiYoxS0UCDFJilooATFGKXFFACYpMU6iiwxuOacvKkUhpyjKketRPYuG4sn3se1Np8nDY9qZVR2FPcKMUUUyBMUYpaKAExSYp1A5NIaB+gplSNxTcUkimLETyabkn8akh4J+lR0luU9kJRilpaogbSGnEUlACoTmlkOCKEHNEo+b8KnqX9k9thjFyDnn1rR03QmaQMBwPaodFRZGAHpXf6LaKwVSB+FeU5WOpFnQ9FAVflHauvtNLXCjb3o0rTsY2jiujtrZUUAD86qnT5gcrFGHTcYzV6CwVBluTVyOAt2zVlLZuM5rqjRRk6vYrRxKvTin45qyLY5pxt8DpWqppGbmyril/CrHkY5oMNPkQc7Kbrwc1SntN+SOK1Wg9BULRHnIrOVNFRqWMKWyYcnpUDW3GCO9bzxAnHHNMe1DL0FYumaqaOXutP3IcAVhXmngE8HrXczWBGWGenSsq9gUIflHFYyhYs4W8tljQ+oFcrqFwF69Mc112tyeSW98153r90ULEHHtUJXHc53X74AEZ9+tefalPlm578Vva7qBYn8q5C6mMjnByK7aUDGciBjkk0lFFdaOYKKMUYoEFFGKKBBg4pMU7PFJQhsKKKKYgFFFFAwoopaBCUUtLQA2ilxRigBKKWkoAKch4IptPUfKPrUT2NKe4jkluabTnOWNNqlsTLcKKBRTJCiiigApR1pKB1oY0PfoKjPSntTaSHIfGDtZh1AqKpYz8r+4pn1pLdlS2QlHakopkBRS0lAx0Y5pJeWp0fWklPzUupX2T2zw1eR7lJOa9R8NSLI6fWvBND1XyXXmvWvB+so5QFxnNeXUg0dMWe06QqmLgda6K0tVKhmrldDuRJGADnjNdfasDECDxXZRS5TKq9SwqKgwqil6+lNzSbsVsZDxQefpTQaXNAC4HpSlR6U0GjJ9aAAoppphBp2T60oPHJoAh+yox/wDrVHJaKg4NWgQO9RTOAOtDGjNlHBBrnNTkVA1dBcygBjXA+KNajtg3zAfjXJW7HRT2OY8S3aISWIPP515J4n1ZA0h3dSa2fFfjGNGcgljghRngH1rhL+2GrQQXMWr2TvLu8yAsVeEjscjHPtUU6bCUrHO6tfmZtowDjHFZJFT3komuZXC7RuwBnOAOKgruhGyOeUrhijFLRVkCUUtLimIbQadikoAbRRRQMKKKKQAKKUUlACilAoFOApgJijFP20mKYWGUGnEUhFAhtJS0hpAFPTJGO2aZUijCrWczWnuMbhjSUpOSTSVaM5bhRxRRTEFFFFABQOtFApMaHOOBTacx6U2hDZIgAifNRZzUoBMTEfjUWKS6lS2QlLRRTICiiigY6Mc0knLGlj4pJOWpdSvsl/TtTa3dVkJwOjdxXoPhbxMtvOhaTjPY15cDU9tdy2zAxvj2PSspU0xxlY+yfBfiaG4jjPmDkAGvS9Nv0wF3fKelfEXhb4l3OjOolztHfrXtfhT41abJEqz3SDPYmsopwNHaR9EBgRkHIoxmuD0fx9p9+gMF4h44GeK6KHxAsig70OfQ1qqkWQ4NG2SRSjpWamrxtwRz7VINVh9D+NUmibMv5oqgdWjz8ozTf7Xj7jFF0FjSorMfVRjgVHJrHlqSSFHqTRzIEmaskixrk4FZV1qAOcEAdzXLeIPiLpGlq/2q9j3LzjmvLPFnx9022RktJRMx/udaylV6RNI031PTfFHimDTrd2eVERQcsTXzr47+JSzyutrOJcmuR8V/EjVvE8j5kaKHpsB61yDMWJYkkn1qY023eRUppaIs6hqs9/IWdjgn1qjkjoSKVjzSCuiKsYt3CgUuKMVZIYoxS4pwGaaENxS4pcU4CmgGbeKaRUwUkcUjoB14PUfSkwsQGkpxAo2jGc0rjsNpSKUAY60uKLhYaBRipI4y2fambTQAAVIoxSKtSBapIm4nNJingUY4qmhEZFNqQimkUhkZpKeRTSKkBvSplHA9qiqfjP1FZT6G1Igb7xpKD1orQye4UUUUwCiiikIKUdaSlUcigaHSDFMqRximhcnA6npQhsfCPkf6VFWt/YWpWmn/ANoXFnLHaSfKsjdCf8isnHepjuypfChKKXFJirICiiikA6PrSP8AepY+9I/3jS6l/ZGj1pwptANIQ/NPWRkOVYg+xqLNLSsBsad4o1XTXDW97KuOxOa7DR/jTrungLLK8oAx96vNwaUGocEy1UaPdNN/aJnjOLhJF/DNdBbftE2MgG+XZ67hXzZuo3Go9ki/an0pdftFWaKfKkDZ6ECsO7/aGd+gLj0HevB9xo3fWl7FB7Znu8f7RpiXb9kkYfWsXXP2gNUvkZLOBoVb+83SvI9xozVKikL2rNbVPE2qavKZLq6kOTnAOBWXuzyck0zNGa0UUjNyb3Jl+4TUbOM8Uf8ALMnPemU0gYdTS0g6U4VSJFApQKBTgKoAApVBzS49Kcg5/wAaHoAphZMZGM9KjZwhwSPTHemXE7bthOcdPao0VmYN1Y98cVm5FJE32k4I2jPTj0pJXDjcwJ3c8VGigswYj6HjNPZgAELquMkEDP4VDbKsQlsD5QQPemh854zUpBVSpbO7BBpUtmd9sYzRzWBRvsQeacYJoDetXHtvKRlfHPI+tMhi27i6naFJ4HX0/WhSuDi0RLIw6Zz6VKpy+1hgnpUSxkfMQVGewqw0e7q/OAQMU+awWJhbtsDdshfxpNpVipHIOKvWKXUZ2PbiSJ1xt/2hyPoaZcWc2xbkIWSQnOByp9DVwqJ6MmUOpTxRipDHjO5kX6mmHitzOwwimkU89fem9aTQWIyKaakNMqQGgZIFT7cgEjoMVEgy6jPU1YlyJCOnA49Kxqbm9JaNlRvvH60hpW6mkrQye4UUUUCCiijFAC0q9RSU9OooBCv2FaPhnT/7U8QWFnnaJZ1BPoM81RlGMV0Xw5TPjLTuOkmaUnaLZUtzpvjnYyaB4jt9ItruV9O+zxyrBu+RZMYJx69K80cAjgAV65+0VbBNb065P3pY3B49CK8oSEyJKR/Au6uWhNySZrNWbRWxQaWm5rsMBKKU0lIB0fU0SfeNLH1NNk+9S6mn2RMUUUhoJFozRRSAWikoosAtFJmlNABRRmigBRRmkpc0AGaTNBpKYEv/ACyPoTUfeng/uiPypg60kNi04dKQU4VSJHDp7070popRTESRhT1bHpUU8uCVU5x3FSSjyoicYJ6AnOKqY3ccGomy0g25PJwfXFTQgxtkNsPQMD3qML0PTHNTwxlzzklufxrJsuKBk812A3Egk568VNJbJIyiJT85AHv61OAAhJABZSBgcDsP61bs7SSSaJeiqAKylOxrGFynbWGZ9uF24IBPPT2rZg0tSrYiIlP3VGAAK6aw0G3KiQpksO9advp6IflRR9BXn1cZroelSwempx0Xhu4kn85VEvbbIMKKvW3ghpF3TbmZsfJn5a7i1tIRjeoP1rVgNjHlppMHsoHP6VzzxtS2h0QwNPqeep8PpZnZkgQAD5Qo4/8A11bsvhtOmZHUyMefmPHtXpVtdWSj5Q2PXbirENxbys2wuR0+7WLxtXubrA0ux58ngfLL5se7HpWb4o8ODSo0LwYtJyAZIsqEf/aHr7162ZYI8fOQfQrVe6i07VbOaynKMkoKtjnHp+IpU8bOMuZ7CqYKEotJanzhqdgtldGMNkEBhxjrVFsZrofGmnTaVq8llcEGWIlgf7yHoR7HrXPMOcZr6ylLmimj5epFxk0xpFNNOPekPWrZAwimEVKajPWpYBEpaVVHc1PISXfecseuagiOJUySOevpVqdM3EhHqCfrjmsZ7nRS+EoHqaSlb7x+tJWhg9wooooEFLQKDTAWnoOaYOlSIORQNbjpVIIFdN8Njt8Y2B9ziublOSO1dD8PAx8XWAXqWqJ/Axvc9F/aThZZNEkK4Lb/AOQryTR4TPHfcfdgJr3D9qS28i18NMwwzB//AEEV5Z4T0/7Vb62yEfurFnP5GuTD6QRrUfvNnH9qQ0D7o+lFdxgJQaDSUWGPjAyabJ9406Lqaa/3jU9S38IH8KbmnHHaikSNooNFMA6UUUZoAKXNJRQAtLmm0tIBaKQUtABSUppKAJAf3LD3pg608YMGe4NMFCGx1KOtNFOpkjgakjQsQo5NRA1ZtXRJMsMt/Dzxn3qgsM1A7T5YBBXiqiccDknirN2C8rMT370+yiDOoZTyc59q55SsaJDYIWdBgYI5PtWpa6VJJCwKgZ53E8g/41pafpDSRmQx4z+Qz0H1rWs7NvJEYyTnGcVy1K/Y6qdI506e0RROPlPGea1LSDMiCNSEJAUHv71en0zyjiMbix5J9MVNBZCN9zE84AGMcVzVKnMjohTszasZAyhdwIX0rVgVQvTj0rEsoHRy2QQOw7VuRuUA3fpXBNHpU2SSg7MJkZHbrVdd6vhT8/t2qR7wsdo6Dt61r6PFEcbwMH17Vg0dMWZsFndzkBUbLHu1adrY6haOGCM3OSSScCu10yGwVFXMZJ6HpzWvHpKzSDam7jJ4rNxZr7RHnlxdTtGR5B6dskmqVtZ3s8peOFU5zu5r1OXw3EzKSo55zUltocMG4CJQOxxSsxe1jvc8E+LGgSXOhQamYwJ7B9kmB1ib/A8/jXkZBHHevrLxcujXUc2jXk0S/aY2QgkA8+nuK+Wtc0mfQdUuNPuB88LlQw6OOx/EV9HlNX937N7r8j53NKa9p7SOz/Mo4Pemd6eetNIr12jyhpFMbrUhoSF5dxUcL1NZydldlJXGW6q86K2cE44qxMjQyyRsCGHBB61Z0y6mtLmFILG2u5mBhEUkZYSF+MYBBJ54Na3jTw7qHhrUI7DU4VhuY7dCQuSOc8ZPp0/CueUrs6acbRORYfMaQ040lbnMJRS0lAhRRQOlKaAAVJH94VEKkTqKBommHIrpvhku/wAb6WnQtJt/E1zEh5FbvgLU4NJ8Y6Pe3LBYYbpGkY9lzyaT1i0Kbse5ftb2TQ6d4VmkP7vdIh9c7Qa+fNL1C6totQFrKyLLCUfHdTxivoD9q/UY/E0vh+10ieO7FvBJcukbA7QxAX9BXzpbv9miuY5AVdhtwfXNc9KKtZF6tXZXIxxTacetJXUQIaSlOKQmlcY+IdaY/wB40+LoaY/3jS6lv4RGpM0rGkxQSBOKSlbk0mKQBRRRTAWijFJQAvelpB0paAFFFJRmgAooNFAD8fudw9cU0U8g+QOeCajqUNjulOBpuaUGqEPGKcDjBFMBpwpgWRtmUFlZtvXHc1p6NY+ZICcg7SfcDsKzbQlkmjBALLnrXZeHdPUbHYFt2MkdBXHiHyo3oq7NSxsxDZhHBJP8RHC//XrTt9OJys2zcFxgHoPrU8SeUCrY3E7unQVaV1dfmZcuO9eZJ6npRRUGmKzK7xjJ6c521LFpsMjEuuBjqPWpmZHBVRnu34e9WoNohIToeT3rKbOiCRAlrBAcKKZNgjr1qQ/vSQwzz2qhftLBCxiAeUnaik8D3NZrVm+yuZ2p69ZaapRmJlPZeSaydL1fXtVu2jtVdi5wFQZOK3bDwEl3cLNe3DF3JclsYwPbsK7LRNWsdLItvD1lFP5anzLlj5cK46/N1bHtW14RVoq7OflqTd27Ix9K8MeOZXEkTvGgHWZsbh6YPevS/Ca+I9KEaakzSIeCrHdt9wfSuUg+JL6jqC6ZpspvrzBJS2hCoABnALnLcA/WtPVvHqWugeaY5Y7lsFY3TH1rCpOe1rG0KS73PQzqkctw0QwR2qtrOoMkJghQmRh0HHH17V5TpnjKfUZTI0rx+mDj8frXQx6zqVzYyxW06IzYAkkG5lHtXPJyWh0qgt0YGu/D++1m7kvJbyJWIyigk7cdBwP1ryjx74d1HRVUanH++U/u5Qch09K7ey8ZX1zraWVsupTZm8s3E8jKoOcdFHGPTqBXPfGXWbi9urLT7mNormyEi3KFg3zFuCGHUY716uBdRVYqWx5WOhScJOO55sG49KRzmjB70dq988Ngo3sBnHv6VN5uQsa/Ko6AVAdwUsBwOppoBZQecscD0rmrO7sbU0dp4EsJIbn+3Ilc3Fo+bYDHDDq/PcVr654tv/EuoDTfEDteWkp2ZlI3wt2dG6g+3Q969O8IQ+B/DXhBbea5juNUNkd+4HAcjOB75rxPXXaW9XCgP1z9a8lVHKpe56KilC1jm9f0abQNYudNnZXeFuJF+7IpGVYexBBrOIru/iJp1vFo/hq9WRnvDbva3RPQsh3L/wCOtj8K4T+KvYoz54KR5lSPLJoSilxSVoQAoopc0AA6U9CAwplOX7woBEkrZIpoJFLJximZzQhy3LVtqN1aXAuIJ3WUdGznH51XklaWRnkYszEksepNNpDQK+lgNJ2oNJmmAlBOKKQ9aQD4uKa/3jTo6Y33jU9S38IGkoNITTJCigUUAGaM80hooAdRR2o96AFopKXvQAUUUUAFFHWikBIxPkAY4znNR1ZORZYKHBbhqrUojkOoFJSiqEOFOzTBS0XAnt3McqkHGeM/WvQPDnnfZ42PO0/e6gccCvP7S3a7uYrdDh5XCD6mvWrVUtVS1t1RYYgEXC/fPcn3rhx07JI7sFSc230FbUoWHlh/3mOc1LFdBoy5OQD+VF1pdjfqA6BJSMgqcVn/ANnS2chbzWaMjGAMZ+tebzI9CVFx1NU3SliMrkVatJGkibk8H1rnDPLBP0LFiB1wBmt3TG/dEhstgA+lTNaDov3i2CB65HNWLG3ja6jlmQHZ8wUiq65B3YyvfFLJd+THhMD69652dlkR6/c/afMjV2Zn++q9HPZT/sj0qx4UstdRtxW1mjbjynjIUD0GOavWNnAqJPtDFlBYsM5NdXooxJGC/khuVBHzGpdVxVkWqSerOe074by28yXMt4I/LdnSO3QIFLDGC33iMdBmsjxfZrptpHptrbBRcyZY5JJA71680UEMTNI5JHqegriPElvFdu10VOeiew9qydaTleTKhTVrROL0qyNuBkY9T6102kXy+ftB+RRyB3rOkiEVvJIwVRjgHgmsBL57q6VLaR1Un+Gqs5I0T5dD0S98M2txcw6lZMLa4WTzwVJ2eZx8xXpngV4v8U7b+xvEklu5MxngSXe3Uk5yfzzXvnhGwnj00CTdIHGSGry/4+6A8MFhqRjwYXMDPjqjcr+RB/OuzLar9ulJnBmdNeybieLknNI1BpevFfTnzDGzviEKG6tkitzwJph1fxLZweV5sUO6eUdcIoyTWBOCQv0Ndz8JoBH4saYqCIrN2APc8Vw4qXLCUvI6cOrySO38RaZDb6xLHbTGeIhSWUcLx92uJ8WiMz2jRbcLFtcKMfNuNel2cCw6jfytI2Z4JgYSufnAyCPQEGvNfE8X2G6aNgrNIyEjOSAF5+nJ/SvAwj989mqtCvr8rXPgRAxUm21PgkfNho8Yz6ZrhuhruNXBPg69YKVj+2xAfXFcSRzX0GCd6fzPGxStMaaSlIo7V1HOJS0UUBYSnDrSUDqKBoc5JpAaV+optJA9xc0maSimICaSiigAPSkoooAdH3prfeNOjprdTU9S3sNPFJS0lMkKKKKACiiigApc0lFAC0vSkpcZoAWiinIjSMFQFmPQAZJoAQU5I3kYKisx6YAzXrPw9+BF7r8Catr866bpeN5L9WFejRt4Q8IQi30Dw/Ddyrx9ouRwT6+9RKViFK+x8/3mnazpuixLqOjTRWkwJgndCBn1z/SsAjFfSuufEjVJbVIbvSdOnsk/5ZBTgfSuWuvCvhD4iRs2mRjQ9U7RjHluf5VMZdzSTfU8RorW8Q+Hb7w1qUljfRFXQ8MB8rj1U9xWXWlyRKcKSlFMZqeGSv8AblqWI4YlfrtOK7vS7qWWdN3Vck15pFK0MiSxHa6MGU+hHSvRdPmE8Ju4uPtEIkAx0P8AEPzrz8dF6SPUy+as4Glf3Qswl3NKsaxsCR3b6CrgvIbl0CsCjDK571x9xNPeMu/nYx610dj5T2kBjdXeBdrH3z0rzpRsj0b3Zkazeiy1W4jcjbIFIGOlbPh/UoZYwS4BZvu9q43xlPv1GR/usUUrg9xVLRdUe3kT5ud2QB34rpdHmppnnqty1Gj11nUfKTyarshLA8VkWWrR3CD94Dkg8duK2bYiRQSc5PpxXDKNj0YzUtjpdEhVhHuyeCAR2rqrWNIdqoQzbcYzn8647TZzAibQSQPu9zzXS2N1GhMhYZOOfWuWojqjK+hr3EUs3+tc7cD5exNQx6Wt84VwNo5x6ClF0rj5j0NQX2uxWNq+xgrEZz6Vg46muvQ881ixvtc1+bTLcHy42xtHfFa5/wCEV8G3Udq1vealqaRhpobePIgPoxPGfYVzut+KZrfUDeWkotpAuA6+lc5H8SruTVY3MxYs2GlcAk/45rtpUZT6aHPWrwho5WPojwB410nxDbztBbTRCD93JDPHsZCemPUV57+0Zq1vceG2iiUbPtEMSN6tksf0rnNV+MNxBbwRWsFrBJuzI0YG2Zfw6e4rnvih4wtvEuiaLHa7Awkkkl28KeMDg9D1rrwtGaqxbVlc8/EVIOEmnrY81NKuBzScjrS44r6NHg2I55CqoBjjNd58Kkmk8XrFztltHUkjsMGuDlGVGc5FeteF7aHQ9X8KX0U4WS+gkXcB2ZMD/wAeBFefjtaUkux1YR/vYvzOv1XSLu51VjbzuqyRJJM4GAqkf4V5x4zszb3zJ5iSFRsXZznv/Wvdpdfh+zW1pNaRrHdI0E7gYLRrgL+ua8k8YeHLnTr1F2qSkhdpAc4B+6CfpXzOEqpT3PenFtWaOc8UbYfCLRo3Et6g9sqnP9a4E8V3/wARQLHQfDunbNspjkuZf9osxwa4E9RX0+X60U/U8HGfxWhretNzT26U2uw5hKMEUYpetACUDrRWloOgX/iG9W1sIfMkPq2B+dJsEZzdabniu31z4ReLNFtTdzaczxqMt5R3bffjtXEspVirDBBwRQtQa1EzSZoo9qYg60lLSUgDtRRRQwHJTG+9+NPTpTT1NIt7DKKDRQSFFFFMAooooAKKKKAFHal/z1pB0p2MUgCvSvgX4dsNb8UGXUELR2q+YPTjrXmwr3D4E20aaDqVxGP9Ik3R7vQHApN2IlrodR4z8Y3up3KLB+5sIjshhXgYHc1Wt9Ss7gQwIrGbq2R8uMdjV9vD7S35V7clCMbiOK3LDwxbRQqsNmplP8Z7VKH5nKarpEN5aSLANsnYEVyv/CN6naDzLeCQSbuwr14aCWuVM33SMAAYrcXRI441wgJA9KlodzzuXwX/AMJ34RNnq6KNYgRmtJu5bHAPr6GvnLVdMudIv57K7haGeFijxt1UjqK+ybjT3ikR4m2MCCCOMV84fHHS5tP8bXZncO05WYHGD8y//Wpxetguec0o6UYpa1GArsvBOoCeF9NZsXEZMtvn+IfxL/X8640CpreaW2mSeF2SSMhlZTggioq01ODizSjVdOakj1NdOt543ae2CvL1KnGPeqtvaRaQkzRyvI0ox82ABjpUXhnxK+twyQzoq3UKeYQpx5q92A9u4qp4kvpUtXa2hkdm/izgIK8Z0pRlySPd9vCUOeJyPiC6+137MhPHBHoe9UYmMbqykjHvUMjPvLODk8mkDnBx/wDrr1IxsrHiSk27nTaZqCQwq5kO/qVzXY6P4gIDbsnkMe4ry6OQqVI/KtrTtSZVcDkNwFzjiuWth0zqpYho9s0+9juERo8OCCx55A9K0ku4kdmbIKgHBNea6Nqq2NuivMVMa8k8844FW18TqFbcwUZ2E9c4715U6LvoetCurXZ2uoeKPsVpnejStnIU4xXn3iDx5NKDDFN93O4qMgYrM1zXFYGeJhkA7ec59zWd4X0+PUr0i7yybScdjn1/Gt6OFilzzMK2Lk3yQZnG51HWZwqiQMQQduSSOprpvDHws1jW0E8hFpEnKmYEFz7Dr0711+kxf2P+6sdMi3AnE0wGFz1wO/1NdZZW086JPqGqLBxnHmhEX8KueLsrU1YuhgYzfNVkefaj8HNWBR7e6trmNVPy8qQc8D3rz+6ge3eWxlVlKOcK38LZ5Hvmvo2WTRYFR59cTcR8jKWbB7E14X4qMT6k9xGyO0jsS2eD3/WtMJiJyl7xhmGGpQS9mzkzkEhuoOKUZ9KlmCLIxYMS3IOelRsoCqQ2cjkY6Gvag7o8RqwyXiM+1bumeIZkh0aQsSdMm+XnjaWz/jWGVLDaBnPGB3rRvvDur6CYl1DT7m0M0YlRZoyu9D0Iz2rCvyvR9TaipXuuh9fWOj2GrWNnOyI8TQvsPs4yD+Ga4/xFP4au9RtdIF/uvWcRuCpCnHGN3TNWfgj8StEm8DSaPrNwkd/pkZMJb/ltGegB9QeMfSvLvFGopdeIXuLc7A0pcAdua+OWWclXllN7dD36NRzcm9jlPitrEer+M7xYGDW1kBaRbemE64/HNcf9a0vEOmtperTQF/MXIdX9Q3Iz71m/Wvs8PCMKUYR2SPnqzbqPm3GmkIp3PvSHrWrMxuKBSmjtQBPZWL3bZAIQHBPv6V2HhyXUPDV4l3bxRuFwfLP3fxNVtLtBb2kaMBjbvz6muj0mOW4iaORCBjrkYrCUrnq0qCjFaanQXHx5v3ga0utKgiXG0PETx9Qa828Tw22ryNfWyKk75YhejD8O9W9StVWV0dSQvH1rDku/s5MQzgdPaktNiK1OPUxaSprtAlw4HTOR9KhrY85qzsJzRS0hpiCiiigByU1uppyU1uSaQ3sMooopiCiiigAooooAKKKKQCilFJ2pVoAeK9j+A1/v+16aCdzZYAfnXjgrqPh/4sn8H+IIr2Jwscg8uTIzwe9J7EyPqfSYZPmhMe5c8MOuPQV0GmaaVuEXBUL/AAkdaqeD5LfWoLa+tJgQUBbHOK9GtbONVDtGu4dG70X0BK5lW/h2OeNDIoyORxT7vR1gjyEJ/pW/ux9aiuVaW2kRMbipxn1osUedajcIs6RbcnNfL3x51Iaj48ugAR5KpFg+w/8Ar19D/EW8j8EafPq2pTKJ9hEKA8s3tXyDrupyavqU97KzM0jEkk5JPrUxXvXJRm4oOM0vFGK0KD24pwpOfxoHNMCzYXs2nXsN5bnEsTbgD0b1B9iOK9AvJYLqyS9tyPJnj8xFJ7Hjb+B4/CvOOldTol8ZtAltHP8Ax7SFh3IVuf5/zrlxULx5jow1Tlbi9mcvqK+XMy5xg9KqK2CKlvGLyE+pqvmrjsZy3Jix/MVYjmaNOMgk/lVRDzjNSB8njntmk0NM3P7UMcShnO7jk84qpLqkrswDYVsnb9aoNJ8uDg470wsCcjrUKmjR1G9DRe785FU7QF7Y6V0fhZUkl3yMAjDBHTg+/auNEgyD1q9Z38iFAZCFHYd/as6lK8bIqnVtJNnrWqa4ltp+bfBfaQSTzx3PvXFvql3PePJLO5/uJnO7/wCtWaNZ84DzHxkk+X2qTT7pftSSMVIICcc7f/11x06HJe521MRzvR2HLq1/DMS0jCPoQ4yn4j+tUru+jkkdXOM/NgdCa6KcEgcRbAdj4OSR7/jXJ6kirdyCILtJzwOBXTSs+hz1bpbjHkWUlsn88cVExAJ25x2BqMMRh856ZFPfqRyK7qbscUi9oETza1Yqi7iJ0bgZwAcmvYtXu7jxU8kOoTGRCCqBhnbn0PauG+H2jzRJNqsqFVkXyos9x3NdKL3Zd7UIB7Zrx8xqKdROP2T38qp8lO8luef+HZJtP8QPAHZShkRx644rfvHEl/G4P8QzWRo6Lf8AiHUbyPHl73IPuTWmQf7SjiHJLd6rE2dS/kjHDtqDXS7NnxN4eg1/T7fyVRL6ND5cp/jH9w/0PavLZI3hkeORWR0JVlI5BHUV7BqatZWlvLt+82FH4Vx3jLR3u0bWoI1Vgo+0oB+Af/GtMDiHF+zlsYY2gpLnjuccaaTSmm5r1TyhaSinD0oA7PSyt5BEQTjZxXceHvC1zfRrJEzgHgccV5n4c1Iw7bUj5t3ynHUelfYnw6+Hy2+gWV1doUmdN6qTwAenHrWDTvY9X6xFU0zwjVvAF/Bvm+zyyx5JJ28ivOPEFjHEXULh8gV99waJZiHy5YUl+q182/tL/DvRvCyWviWxJh+1ytE9sGwGfGcqP50Wa3MXiYz91o+c74g3L46DAqvT3O4knqaYa2Rwyd3cKQ0UUxBRSd6WkA5OlNPU4pUpD1NA3sMooopiCiiikAUUUUwCiiigBe9KOlNpw5FADwcU9etRinjrQB6p8JPind+EL+C2uneWx3Dvyg/qK+ytD8U6J4itUuNJ1S0uo3GQFkG4exXqD+FfnTBIUIIrZs9furYgpKyn1UkH86GkZWad4n6IPNFEpeWWKNR1Z3CgfnXHeK/i74P8JRP9p1WK7uFGRbWTCVz9SPlH4mviubxXfTrtkuZnHo8hb+ZrOudUlmGC/HoOlKzK957nX/Fv4m33xH1v7XOot7WEbLe2RsrGvue7Hua86Y5NSySFieahY5ppWKSsJSUvtRTGBpQKBU9wiWiRhxukdd5BP3QelAEHfpW94Utprq4vI4wSgtyz+2CMVzf2sg8xr+NdZ4F1FYGvW8sAyoIwwPPrisa8rU2a0Y3mkc/rFtJazFJECnuR3rMPWun8U25WXzAoww9efWuXfk1FKV4pjqx5ZNCZ96crEc5plLWhkSbulG7PcUzNJ3oGSBu341JG56g9KhBzTucbenrSsNEzyk5IJFT29wY5Ay8HA/8A11TJzj6U5Dhh7+hocRqRsLq8ttAyo55O7A9az3neU5J5J/nURk3DHOaI3yeM5qVBLYpyb3J4lxkMeME1dsLNr/U7a0K5ErqMD071SjbOTjIzmuo+H9n9q8QCZhxDGX57E8CpqS5YORVKHPNRPTfsy29mqKFCquAAOgrhda1OTT1urlQCTmOMjoHP/wBbNdpq16ttaOwPzYxXm+uvJPYJbLy9zcrgfQHn9a8nDxU5q57taThTbRZ8FW2yxaTu7H/CtmK03arE/fIpdKsU06yigQ7ggwWx1PerNlE8urQsoO0EVU6ilUlJGVOk4wUexueLUVY7C1HVUMpx27VQt7JbuyuY2I/eRMhyOORjmn6zc/atWnBJxFthH4Dn+dXbWIR6bcSeiHnvWUXZlNaHh9xbS2c8lvMpWSM7WB9qi7muy+INmkY067WPbJIrxSMP4tuCK42vepVPaQUjwa1Pkm4h2pQabmgVoZlm2k8uRWB5BzX1R4A/ae0waPa2Pii1uUubeJYzd2wDiUKMAleCDjrjNfKAbFSJOy9CalrsFrn1f4s/au0nTw0XhvR5b99v+vvG8pAfZByfzFfOvj34ja/8Q9TF/rl55rICsUSDbHCvoqjp/M1zLzFupqItS5RiE02lNJVCENFFFMBKWk70UAPTvTW609OlMI5NIb2GUUUUCCiiigAooxRigAopcUYpgJThSUooAUU4Hmm04UASKcU8PtqIGlBoETeZRvqMdaM80APJphNGaUigBKWgClVWdgq8knAFMZNZwq7tLL/qIRuc/wAh9TVW7uHuZnlk6sc/T2q1qEi26izibIQ5kYfxv/gOlZ+c1MmNDW5Oa3dBmFoqNnIJ3NisMjNTW101s3qncVjUg5xsa0pqMrnYa5afb7MSIu/5flx1zXESoUcgg5HtXZ6XeJLGF3ZQ9vX2qLWNChumZowI3H8QHUe9clGpyPkkdVan7Rc0TjcUVbm0+eF2UpnHp396qlCDyDXcmuhwtNDe9KKCOaBQxC5pzNzTKOTQA7d3pwJXGB3pg4FOBzzQMcxPUHilj5z1xTacgIzg0mMtRggjb19a9H+HumvDp8l1tw9wfl45CjtXnCjavPevbfCgiXTY+gUIAPyrhx0moWXU9DL4p1ObsVtXgLqsRGSx5B9KwoNEE2rI+xikaZjU8hWJ5NbmqyifUNqn5IxyR3Na2iwZQkryxOK8um5RbsexLlkrGc1ltUJtOPao9PBg1aKNhkk55rs7LTokuQ0ihvT2rP1TToItbWRCMAYGKtIDlbu28m6upGcEySs/0rWDg+GppfVlX8yKLnRHuZm2gkk1qHRWg8O3ccmQMBvoRzUXdyXFWPOPiQmzRtPPHNw5Ht8ted16l40099W8IJdRcvYS+Yy9yhGCfwry7Fe5gZXpI8LHRaqsafrSUppM4rrOMKM0lBPakAZpM0ZozQAhooNJQAtFFHemAUUUoHWgB0dNb7xrQ0bS7jVbgw20JlYckDtTNX0q60e9NrdxNFIBuwe49Qe9TzK9hvYz8UUUdaYgoop2KAG0tLgUYpgJRS4paAG4oxTqMUAIKWjFLigAFOBpOlKDQA7OOtHWkxmlAoAWil60ZpiCpYmaAGf5QFBAY+vt6moWdYhlhliOFqB5Gl5ckgdB2FLmsMQndg02k3Y+lL16VmMXmk70uabTQyzaXsls3B+TuPSupsdZM0a7lWQYxknnFcdU9pdNbNkfdJ5FZVKSkawqyjodli2usZAjYcfMMVSvfC5mbzIULd8qeKWxnS4jBXkHrWpbxEHKO6Dvg4rn5XHZmzkpbo5+TwtL5JwAJF55OM1Xm8PXGG2JhlUHbmuyeaaNdqsJARgB1zxT42lEiyNHGzAY44yPSn7Soh+zgzzWa0khYq4IIOOaJLaSKNZGAw/TByfxr0iPT7Wa7JubUtGUKhAuQvpWXqngu7u8TWcRSItmRSeP+AjrjFaRrXeplKjZXRxCRtKwjUZY9BS+WVJRwQRwR6U+eNYp3RXDKjkK69Dg9RViOJrsFg2+Tqcnk1sYFVU3EY7VIq44qV4vLO10YfpmkGB82KdhjwRtIOD716h4ZvWHh+BlJOEHJry0fdxXofhFi+iwr1+U/wA65MbG0EztwEvfa8jc06F55yz/AHc967PT4ERB+lcvpJHTH3f1rqLKUYU4/GvKPWRqrgOue9cxqbzP4ghQA7M9q3BeDzNueRWPHfxT68IzgsuTTTNEzdREtyGA+Zqdql0n9mTR4G6RCv0zQrcNI+ML0rLuZHu5Co+71qL3JKFjpaR6XNG6B1ZCGU8g1454y8N/8I/fIYQ32S5BaLP8J7r+Fe5xXai2kQAY7mvN/i3On9m6XBx5hmdwPQAYrtwMnGpZbM4cdFSg2+h5ke9NzTj1pleyeKFFIaBQAUUEikpAGaXrSYpc0AFGaTmgUwFpwHFJ1pwoA9a+AllDc3OoeaAS20DPbFQftAWcVtrWmGJQB5DIfwIP9an+A8bSX1xsJznFO/aBtXj1DTpHzyHHP4Vha1VHmxrv6w4ef6Hj1LRilrax6YgNKKXik70wFoo70tAhMUuKWimAmBQBS0tACUuM0YpRQAAUUUA0AKBxS0gpVRpG2qCfpQAZ+vNOceUPmO1vTqRU4WK1IMjkP6Jyw/wqtNJA33Flz6sQamTGkQHGcjOT3PWmk044PQnFNIPrUFWEOMUwHa3tTyKaRQJjqBTFOODUlAgNJyKKXtTQF3Tb82Uyk5ZCcEf1ruLKRJY0kVwysMhh3FeddxW54f1f7HMtvMwELnALdEP+FZ1IaXRrTnrZnbrEJOcjin+Xg5PU0WxJGMda0UtTJjANc7aOhIhsoA7D2NdXBZsukXJhXMqwuU4/i2kCsSzsikvIwPSux0sqtod5AXpzWcmbQifMN7aXFlMY51Ktnv3plvO0DgrXq/izwtDewGXbtDsSrY5X0ryy+sZtPuGhlUqynFddOqpnFWouD8jUWVbmLOA3qOuKgkt+CU/KqlldGGQdx0x61qyRBkEsZyDWt7Ge5m9M8V6J4LTOlQj1U/zrhXRXHzDDeorsPC8z22mQkHhWK/rXJjtaZ14LSodfZuIZitblvMVQY71hWjCb94Oh71pxzMAvOB7V47Z7KNizCyBj3+tc9a2rDxIz5xnIroNPkUrknqK5y0vB/wAJE+c7cnFEXuVY6W7uXVFgGMt1NSJbCOIIo+ZhyarooBMrncxOQPSpJLvOVB575qESyC6higgZshY1Uu5PYAZNeEeKvEUviXVDdMvlwoPLhjz9xB/U9a9U+JWsHSfCssSNia/byI+eQvVz+XH414lXs4Cn7vOzyMdVd+RDW60hpSaQ16B54lJS0hoAKTilpMUAGaM0YoxQAUtJSigBRTh6U2lFAHuH7MenPqGq6gij/VgHPpWz+1PoLadb6JcnkO8i5/AVw3wG+I1j4A8RXB1RjHZ3kYRpQM+WwORkVr/tD/FHTfHdzplho03n2liGdpR91nbsPoKw5f3l2cSoxU3Lre54t3oxQKWt0dwmKUUUUAFOxSAd6dQICOM0CkNAJpgLS0DiigA70UUhoACaKKfHHu5b7o/U+lIB0MDTHjAH949BVlrqO0Ux2yjJHzSHkn6elVZLn5SijA6cdKrlz2qbjJmmZzyFP4UxmB6jFR5NG41JQpA9aSjjFIcr2yKAFNJjilzS4zQBEyHtSoc8HqKkxTCOfegTH4pOlMLMvJGaBICcgHNNCHgHOaccce1AFKRTBHYeF9cEsK2s5JmjHynP31/xrt7C8V1ABGfpXjUMrQuroxDKcgiuy03U5Fgjuo2JjY7WH9xvSuapDqjqo1OjPRoLlQQWVvyqxJdXNwixIhERPToD9e/4VjaNq8c6jcwz9a6u0Mb7WAGM5rkkdkbMg1HTd2k7H+ZuprzPxjoC3Nit0i/Op2scc5FewuBMsidiveuO+yrdG6sZORIDjPY0oS5XccoKSseDsrI5U8EVpaXe7D5Uh+RuOas+J9JeyunO3HJBHoaxEODkdRXpRfMro8uScHZm1cx+TJwSQehrp/D6M2iNIGGBKw5rlraT7db+Sx/eoMqT39q6vTLu0stFtrY3MQkYF3GehPaubFfBY68GrzbOg8P3Be32sc4OK242O7BOMVzujXFumEhnjcn+EMM10MrmOAn5Ru968aadz2I7F+2k+RgrdeKoW8MR1nbuBK9frU+iRu7DcM4P51lXLNZa6VyeclsUoq7sU3ZHUyXAdD1HpSWy7m+ZgSeSSelV7aJrmLcQcEcDPSuB8ceOBDDLo2lSAlwUuJ1OcDuoPvW1Ci6krROetWVOPMzn/H3iRfEWusYWLWdqDDBzwwB+ZvxNcwTzRSV9DCChFRR4E5uUnJiGkpaSmSGKTFLRigBMUmKfSUANopxpKAE60CiigBaBSZpaAFBxQT7U2igBaKSlBoGFFGaO1ABmlye1JSimAopeKaDS55oELQTSUGgBc0UgopDFpZJNiBQeaaCM81Gx3MSTx2qWA3JooJpM1IDuaTNJSZoAeDkUob1qPmjJ9KAHlc8qeaQPjhutJuwaUgP7E96AJFPYikZeajVirYbpUw/MH9KBojqMr8wxUrjaaj3HOfSgGWivyA0mPWlhcOtOZewoERCtTQr8Wtz5EzD7PPhXz0U9m/z2rMK465pAcGk1dWKTszt4p5NNuWjZiMHHNd34d1tJ0WN2HPfNebWN2dU04bzm5tQFY55ePs34dD+FXdK1RrWXDN8tcs4XO2nUsezwSEkHPaudv4jDqLOM8tnOKm8P6wLlVVmycDn1q7q1uGxIOjCuRpp6nYrNXRxHjnRUuVF0qZEw59mryS6ga2uHjYYKmvoieyW/sZLRsZZdyk9mHevGvGGktBKZtuGViriurDVPsnHiqX2kc7BM0bggmup0zVtCjRY54pU4ALYrk4vvfSpO9dNSmpaM5qVaVN3R6Fb2enagQbC7glz0RuD/AI1dkh1OzjCxysFHOx23r+B6ivMkYxtuRmVvUHGK17TxTqNuFSSTz0HQP1Arjq4SW8Xf1O+nmEdpI9R0DxTFakJfwtbMBw4GVJ9z2qO4lTUNcjlhxJG5+8D1rm7LxDpuqQJG0xjn7q/H5eta+mRTWV7FLaPHK+QQoHJ/pXDKk4O7VmehTqQq6Jmr8R/EI8N6EmnWrst3ejaOeUj/AIj/AErxYknqST15rpfiFrM2t+J7i5mXYVVYhH/zz2jBH55P41zOa9jCUlCmu7PDxdRyqNdEBpBQaSuk5QNFFFAC0tIaKYBRS0goAQikpxpKQCUmKWkPSgAoNJmigBc0hNFJQAtLSZpaBhRmiigBaKKKAAGlzSUUALmikpc0AFFGaKAAnANQtUr/AHahJ5qWAUZo60YosFw3U4EU3FFIBw20YptLRcAIxQOKdmjaD35pANPI56iljk2cEAg0FaYwNMC0yhx6+ntVZ128d6kgkwcE5qSVNy7hQgK8bGNsg8VeRxKmQeaolcU6KQxMPSmwLbLioyvNT8Ou5cVGRxUlWJdPvJLG5SaPnbwQejA9Qa3LqNZI0uYCTHIMiubwc1saHegsbOUjZLyhPZv/AK9RNdTSm+jOi8O661vMqs2MHjFeqabex6pZ4LAtjkV4dOklpP06Gu18GeINkixu3HpmuSrC6ujtpVLOx3SIUnCkken9K5rx74cW5tnukXORtlA/Q116gXASZOhx0qr4quUstPlnkwIUjYuD3GKwho9DeaTWp84ywG1nkhb7yNg03FOnmM0zyt1dixpoNeqttTxuoUtGKQ9aAFzitzw5rt7pd0k0chcIQQj8isEc1e05dzEjtUVEmnc1oyaloGp3TX2oXFxI37yVy5+pNVCCOtSXnyzsKh8wgY7e9aR2M53cncWikBU+xoNVcgWlptKKYDqAaSlpgLmkzRijFIApM0uKQigBKDS4ppFACUUUUAJRmikpALRRRTGKKWm0ooAXNGaKKAFopAcUuaACiijNABijNFFAA3SoamJ4qE8UgFooopCEFGBRRQAvSimkc0HNKw7j8Z6U05X1pAxFOL5GDTsFwEpHWnFQ4yD+FN2qRwcU3DRkHnFKwXE+61WYJc8GoH+YbhSIcGnYCeZAp4BwelQsv5VaQiZNuecZFRMlIYW02xtp6GrbrnJFZxBBq5BOGTa3UUWC4FfahMq2QcY9O1PZcc0z86QzpN39p6etyf8AWrlXx61Dpl01pdK3TBwRUXhmcGeSzbpOPlJ7MP8AEU6/i8ifI4rBrWx0xd0mew+FNVF3AsbNwOme9Yvxi1lLPQ47FW/fXjY47IOv9KwvBOqGKdE3DOe5rnfifrB1fxXMobMVqqwIPoMn9TWVKn+8NqtT92cp685pRTQKcK7Dzh3akoPrSU0gDp7Vc02XZKR61SPNS27YkGKma0LpStJMff8A/Hyx9arVNdNulzUBpx2CfxMM1PGoYBW/P0qBeSKtIdilvQVRmROmxyuQcd6OlNyTz3pc1QDqUU0UuaAFpabmlzTAWkozxSUABpD0paQ0gEpDSikNACUGigikAUUlKKYwooooAXNFJRQAtLRRQAUCiigBc0UlLQAVETzUtRMOaTATNGaTAoxxSBi0Z5pOaMGgQtLTefWjkUAOxSbc9aTJpQTQAoHuacB6803NOWgYhiOMqPwqP8Ksebt4qOXa43AYPegGgifa2asSYZd4/GqYPNWbdxnDHg8UgI2XNMUlGB9KsOu01E65FAFoMJEBFN+lQQybTtPSp6LDTJLaZ7eZJUzujYMOfQ11OrKl5ElzHjEihwfrXJjrXQaNc+dYPbMcmI5Uex/+vWdSPU1pS6Bo939iu1mZtqqck+grm724N1ezzsdxlkZyfqavaq7Rfuh35NZhogktRVJdBD1pw5NNPNOStDIeaaaeaYaLgNNTWvL5NQ/Wpbc7OTUvYqG4lzzIcVAeuKllbLsfWozgtwKaFJ6johUkrcBB260kWBye1Rk5JJ71RItKKSimA7rQKQUuaYDqKbmlNAC0lLnikBpgLQaM0lACHrSUuM0ntSAQ0ZpSKbQAUUUUrjuGaWkpc0wCijNFABS5pKKAFzRmkpRQAtGaO1FAB1pjj5qeDimPwM0mA0mikopCFzRSGkzQA7FGKQGlyKAFoxzSZFGaQxwFKBTQ1LuoAUEKaVgrKcdaZ9aepANAEOCvGMGlRsGrBIZdrc+h9KrsCrYNNAWxiSPjqP1qIjtRbylWqWWLnIPBpAVXXDZBqaGTcNp60jJxioVPlvn86Yi5VzTbj7PcBicKRtb6VTXDKCKSdtkYHqaTV1YadtSTU7qO4uDs5C8Z9aqA5pjAduKQZFK1tBt3dx5FKpApgOacDzQIlzTTS54rT0vw7f6swFvBIwPAwpOaTdi1Fy0Rk4ycCrG3bGeOa9S8OfAPxDquJJ4Dax8YMv8AF+X9a9Et/wBljTpbNXl1O8W4I5Hylc/TFRz32NOTlWp8xMAQT0PamqK988T/ALLeqWETT6NqCXW0ZMUybST7GvG9a8N6joFw9vf2clvIhwcjj86tMzcOqMp+FA9aZTnBzzTaszCl60lFAC0opM0ZpgOHelzTQaM0wHUg6UZozQAtFJmjNMBRSGjNG6gBKQ0pNIelIBlLRRUgLRSA0tO47hS5pKKAFFHekopgLRRRQAtGaSigB1NkxjFGaa5ycUmA2iiikIKTFLRQA2lpcUUAJzRzS0UAJg0c0tLigBAKcDikxQaAH7qRhvHoRTAeaWkMRcqeeKuxP5sZXjI5FVH5UHuKWGQqw6daEBMykMajlTIyBVmVSQGUcHmoiOxpiI7eXB2mn3f8Kj61CUKv1x3oYljknJoGIORSGlHWikIQZqxa2s13II4ULk+lRwxNNII0GWY4Ar2f4XeBordk1G+jDwJlnDd+KzqVOVamtOHMN+HXwhi1KMXOqrhRyd3AFeq/b/DPw3tg9rbJNcdN0aAt9M1xXivxyit9ksi0NvHwQnGa4869NqV7FEzkIeo9q5GpT1Zs2o6I9D1D41315cKtvZPCFbOJHxkfhXQ6L8StRuwDI4j77Qx/rXnGorZQiJI/nL8qMdPqal0qWKC5V3YYP5ULRaCue2weOHKgySIRjkMM/rWX4i0vQfGdtIs9lHJKV4YKM59a4i9v7eK2MqMoxyad4f8AFqSyKIW+YHmjmkNNI8o8f/Cq/wDCm65QGW2Y8EDpXnjptNfZcl1aeILB7O/iQhxj5lzmvnr4n/DqTw7dPeWq7raRicDoK2pVujInC+qPN6Q0pGKQ11HOApaSlFAwFLSUA54piHUtNzRQMcKQ0UZpgxKWkooEFBo7UlACUUUVICUoNFFABmiiigBaKQetLTAAaUikooGLRSUuaYBTH4OacKGwRSYEeaM0HiikIWikpc8UAFFFFAwoope9AXEpc0UUCFpp60pooAKM0GkpMaHqAVbPSmYxyDxTxwKapwaQFu2kEiFG+opXXA+lVkYxvlfyqeW5TORyT1FUIif71RkUpfe2fWg1IxtKRmjFOUZwPegDsvhx4dbVdTTcmQSBz6V7PrV3HpVgumwqoRF+Yg81lfCHSbSx0ibUJwBsTAJrI1/XotTvJ0hZtik8jgVwzfPO3Y6/hiYeuPCZlJK89R/jUK2NuyrNE+0qOqnqaVo45VLSBc9smqsDBJXTcducAYyK0S0MWzV+ymaE3b3MjlFzjdT7TWYiAhwMdPU1NH4Tu5NONwhZVPOA33vwrmbmN7aTjhgaaswehs67qVyIGCsQjVc8IwXdlam+UFx1Wufa2v8AULcY+ZRXaeClmhVbWcfuz2NKS0HF6m54a8YLqU00MxCvGOO1dC8Vl4qsZrG4YOyKdpNcvrGnWWmzPcQBY3deQBiuQ0zxRdaTrwZZGCE4IB4xWXLfVF81jg/GPh9/D2t3Fmw+UNlfpWBXrHxc0/7V5eqpyJBnNeUMOfau2lLmiYTVmJRRRWhIdaBRRQIWlpKTNMY6ikopiFNJRRQNC0lFFAhuaM0lFSA6ikBooAWikpaAE6UtFJQAuaWm4pc0ALRRmjNMYcUcUUUANkptPYZFMpCCijNFAC0U2lzQA7pRSZooGxQaKSigQ6ikpaAENJS0YpMaFHIxSAYNAozikApbNJtpB1p9UIZging560hpOhoGOqS2XdcRL6sKZgEVLa/JdQn/AGxUsa3PftEjmTwS4hRhv4JFcHNbmC+8sHO416l4OvYG8HFCg3AHJI46VzEHg6TxBfvLDK6jPUf4V5sKlm7nXON0jN/s5vs4YquWHU1V/sVrEfaJWXrnBOMiu4T4Z6kiqy3crovUAV0dn8L7LVNPUXbyM4BHXGKv2rexPsjzhvGRhsRbwIMgY4rEWwuNVuA2zAHrxmvU7H4UaZp0rl8y4PC+n1q1f6DbWsYW3RQRxhVq00tiXFnnA0+exty6nKdMVt6RCyQiQuquOduOa010Ce8R1lBWNRkDdVFLU/Zp1ScIIxyM5z7VLlcSRzfi3WLmKQK3bjK85rA0yBtS1C3Qf6yVwAa2bvyL2UxXJwRwVHes2wcw65bx2ZG4TAL+dXHYTPTPiP4IFr4CkndmLQx78nvx0r5qf71fYPxIdv8AhWt39oXn7OfzxXx8xBrXD7NCrLYbRRRXQYiUZo4pKAFpaQGlpgApaSlBpjCikzRmgBaKKKAGUUUVIgzijNFFAC9KWm5NLmgBaKTNFAC0UlLQAUUUUAAo70lFACnpUdPppGKAE6UtJmloAO9FFFABRmiigBaKBRQAZpRzSUUAKTS03r0paQxe9J2NITQOhp2C4lPzkUwUooC46kPSjNBNAXHRnPFOJ2kMOxzTFODUnakwue3/AA110XOlyWOMs6/KO2a6q1s7rRlaSNsFzkba8W+HWvvpmoom/bz19q+gLdpdTijMBDlxkYrzKsHGpp1OyL5olvwzqt1fziGXJAPI3V00ky2ydCD12qOtP8MeFpYbcyGICRuprQv9GnSIvIpCng810Rou1yPaJaHM6dMGmdpG/i6H+VNvYJJZj9niLDvjtW8nh4xQ7xESrVp2GkFlJMZA9MVXsmxOqjzHVYLlIWCx+WT8p3d6xbfw7IhBTYVPJUjv616drVsjvsMQJHCjFZVn4fubmUyMDHEvYnms3Sa0QXTPLvEXhWGd12kCQnqoxXKaTpLWfim0hU7ysoPH1rvfiJc3NhOkEGSzZA2DkmtL4deGTYW8mq6vCizMCU3j5qlNpaha7Ivjhr62vgRrXdteYrGBn/PpXy+a9J+NPixdZ1z+zrZgbe0PzEHq1ebE11UVaOpnVd3YSjNFJWxkFFFFABS5pKKYC0tNpaAFooopjAUtJRQIaOlIaKKkBaM0U2gB1FJn2pQc0AFGcUUUAG6lFJRQAtLTe9LkUALRSZpaACmtTqTsaAIzRS0UAJTqSkoAdRSA0uaACjNFFACiigUUAFGaTNLQAhOaB3oPUUvXNACUq0lFADmyDSU5uRmmjpQAVKOlRHipEOVpMCS2uHtZ1ljJDKc19DfBLxQNduUsZXBlVeM+lfOeea3PCHie98J65a6tYMPNt5A+xvuuO6n2NZygnqXGVtD9AIQttEsSj7vB96WRlmTY4yM5xXmXg/49+D/F7Q2rXL6TfyYH2e8wqlvRZPunnpnFei7mHXjPI960TQnGxZDhV2gYFOWbsOKpmbBxmk86mSWJLa3mYs6ZJqrd6crRn7KVjcj+KpPO4oecIjSEqEQbmZjhVHcknoKQ/I8z1bwJdHVo76/K+Wjbh3zXI/Fj4l2OhaT9jspEe9ZSiIP4M9yO1R/GP4/2cfmaL4XljvHXKyXiHMat3Cn+L6jivnC+vbjUbl7m6laaZzlnY8msfZ3fka8/KvMjnmeeV5ZGLO5LMT3NRGikNbbGIUUlFMBe9FJRQAtGaSigAzS5pKKQC5opKKdwHZoFNpaAEooooAKMcZoooAKBRRQAtFIDxS5oAKKKKACiiigAHFLmkooAdRTR1pc0ANPWkpTSGgAooooAKSlooABzS02nUAFFFFABQaKOooAQ9aXvTe9KetAC0GiigB68qRTaFPzUMMGgBDUiVHT060AIetOjODTD1NKtIZbRxjpXd+EfjL4y8Gwpb2OqG5sk6Wt6vmxj2GeVH0Neeq1SrIdpGetTYLn0HpX7VMmAureF43I6vZ3G3P8AwFgcfnW0v7UXh4pk+H9WDf3RJH/OvmBZTUizn1o1Hc+gdZ/aouGVl0XwzHESDiS9uC+P+AqAD+deV+Lvir4s8Zq0WravJ9lY5+yW48qH8VXr+Oa49pSTyajLZp2DmFd8/T0qM0pNNJppEgabS5pKACiiimAUUUUAFFFFIAooooAKKKKYBRQKM0WATNLSUmaAHUUgNLQAUUUUAHSjtRRQACjNFFAAKWkHrRnmgBaKTNLnNABRSZpaADsabTqaaYCUtFFIAooooAKKKKADNLSUZoAWiiigBppTSGloAUUUgpaAAcHNOPIzTKevQigBhp0fWmmlQ80AFL0470lCnLUgJBxTweaZSjrQA0nBIpytTH+8aFNADmPNJmkfrSUABNIaKKYBRRRSAKKKKACijNHSgAopM0tABRRRTAKKXFFACUUtBoAbRSUtABRSUtAC0UlLmgAooooAKKKKACiiigAooooAAKXPNJnFFMBc000tIelAwopKWkIKKKKACiiigApKWigAozSUtAAaBRRQAtFJS0AFAODRSd6AFbrSL1pW5pBQAppFPzUp6U0cGkBL0paaTSigBr/eoB5pH60ZoAc3am5pT2pKACiiigAoopM0ALmikooAOtHWigUAFAoNAoAWlFJRTAWikooADRRRQB//2Q=="
  },
  {
@@ -637,14 +660,22 @@ const ARTISTS = [
  },
  {
   "id": "A07",
-  "name": "Ana",
-  "born": null,
-  "nat": null,
+  "name": "Ana Balboa",
+  "born": "1985",
+  "nat": [
+   "西班牙",
+   "Spain"
+  ],
   "bio": [
    [],
    []
   ],
-  "links": [],
+  "links": [
+   [
+    "Instagram",
+    "https://www.instagram.com/anamanecer/"
+   ]
+  ],
   "photo": null
  },
  {
@@ -710,11 +741,15 @@ const WORKS = [
   ],
   "thanks": "藝高文創股份有限公司、Thea Macera",
   "desc": [
-   [],
    [
-    "For this mural, I wanted to capture the everyday scenes of Huannan Market and highlight its unique organization as a one-stop marketplace where people can find everything they need in one place. I followed the market’s existing color-coding system to make each section easy to distinguish while creating a lively and engaging visual experience.",
-    "I was inspired by the simple routines of buying and selling and how these everyday activities connect us to food, family, and the people we care for. Through this artwork, I wanted to celebrate food as an important part of Taiwanese culture and transform ordinary market experiences into accessible public art.",
-    "The title, One Stop, All Together, also reflects our collaboration as artists from different countries, united by one goal, to share our perspectives, work together, and create an artwork that celebrates culture, community, and connection."
+    "本作品由 Jasmot 主導，與拾壹shiroooo11、madkidgenius 共同創作，以環南市場的日常風景為主題，呈現這座市場「一站購足」的獨特樣貌，讓民眾在一個地方就能找到所需的一切。作品沿用市場原有的色彩分區系統，讓各區塊清楚易辨，同時營造出熱鬧而生動的視覺體驗。",
+    "此作品靈感來自買賣之間的簡單日常，以及這些日常活動如何將人們與食物、家人和所關心的人連結在一起。藝術家們透過這件作品，向食物在臺灣文化中的重要地位致意，並將平凡的市場經驗轉化為人人皆可親近的公共藝術。",
+    "作品名稱《One Stop, All Together》也象徵著來自不同國家的藝術家們攜手合作，懷抱共同的目標，分享彼此的觀點、共同創作，完成一件歌頌文化、社群與連結的作品。"
+   ],
+   [
+    "Through this mural, led by Jasmot in collaboration with 拾壹shiroooo11 and madkidgenius, the artists wanted to capture the everyday scenes of Huannan Market and highlight its unique organization as a one-stop marketplace where people can find everything they need in one place. They followed the market’s existing color-coding system to make each section easy to distinguish while creating a lively and engaging visual experience.",
+    "The artists were inspired by the simple routines of buying and selling, and by how these everyday activities connect people to food, family, and those they care for. Through this artwork, they wanted to celebrate food as an important part of Taiwanese culture and transform ordinary market experiences into accessible public art.",
+    "The title, One Stop, All Together, also reflects their collaboration as artists from different countries, united by one goal: to share their perspectives, work together, and create an artwork that celebrates culture, community, and connection."
    ]
   ]
  },
@@ -741,6 +776,12 @@ const WORKS = [
     "Dimensions",
     "7m30 x 3m50",
     null
+   ],
+   [
+    "展出地點",
+    "Location",
+    "赤峰街47巷2號",
+    "No. 2, Ln. 47, Chifeng St."
    ],
    [
     "創作年份",
@@ -780,6 +821,12 @@ const WORKS = [
     "Water-based cement paint"
    ],
    [
+    "展出地點",
+    "Location",
+    "中山北路一段53巷",
+    "Lane 53, Section 1, Zhongshan N Rd"
+   ],
+   [
     "創作年份",
     "Year",
     "2026",
@@ -789,12 +836,16 @@ const WORKS = [
   "thanks": "藝高文創股份有限公司、杉木藝術有限公司、吳美瑩里長、<br>捌千代居酒屋、三條通熱情的鄰居們",
   "desc": [
    [
-    "一直以來，怪獸都是貫穿我作品的重要代表性符號。這次的設計中，我將一隻魚化身為花壽司怪獸，穿梭於條通商圈之間。<br>條通商圈所在區域，是台北日治時期日本人聚居與商業、飲食娛樂活動的重要街區之一。至今仍保留濃厚的日本街區氛圍，也在長期的歷史交流中，發展出台日文化交織的城市樣貌。<br>因此，在這件作品中，我選擇以台灣近代建築常見的花磚紋樣，結合日本飲食文化中具有代表性的拉麵與花壽司，作為畫面的主要視覺元素。壽司魚遊走於台式與日式生活意象之間，象徵兩種文化在日常生活中的交會、互相影響，並逐漸發展出屬於台灣的文化風景。<br>作品中的魚與麵條也承載著祝福寓意。魚象徵「年年有餘、豐衣足食」；麵條在華人與日本文化中，都有平安順遂、情誼長久的寓意。希望透過這兩個元素，表達對文化交流的祝福，也祝願這份跨文化的情誼能夠長久延續。"
+    "一直以來，怪獸都是貫穿拾壹shiroooo11 作品的重要代表性符號。這次的設計中，藝術家將一隻魚化身為花壽司怪獸，穿梭於條通商圈之間。",
+    "條通商圈所在區域，是臺北日治時期日本人聚居與商業、飲食娛樂活動的重要街區之一。至今仍保留濃厚的日本街區氛圍，也在長期的歷史交流中，發展出臺日文化交織的城市樣貌。",
+    "因此，在這件作品中，拾壹shiroooo11選擇以臺灣近代建築常見的花磚紋樣，結合日本飲食文化中具有代表性的拉麵與花壽司，作為畫面的主要視覺元素。壽司魚遊走於臺式與日式生活意象之間，象徵兩種文化在日常生活中的交會、互相影響，並逐漸發展出屬於臺灣的文化風景。",
+    "作品中的魚與麵條也承載著祝福寓意。魚象徵「年年有餘、豐衣足食」；麵條在華人與日本文化中，都有平安順遂、情誼長久的寓意。藝術家希望透過這兩個元素，表達對文化交流的祝福，也祝願這份跨文化的情誼能夠長久延續。"
    ],
    [
-    "Monsters have always been a recurring symbol in my work. For this mural, I transformed a fish into a flower sushi monster, swimming through the Tiaotong district.",
+    "Monsters have always been a recurring symbol in shiroooo11's work. For this mural, the artist transformed a fish into a flower sushi monster, swimming through the Tiaotong district.",
     "During the Japanese colonial period, the Tiaotong district was an important area in Taipei where Japanese residents lived and engaged in commercial, dining, and entertainment activities. Today, the neighborhood retains a strong Japanese atmosphere, while its long history of cultural exchange has shaped a unique urban landscape where Taiwanese and Japanese cultures intertwine.",
-    "For this work, I combined colorful floral tiles, commonly found in Taiwan’s modern architecture, with ramen and flower sushi, iconic elements of Japanese food culture. The sushi fish travels between Taiwanese and Japanese cultural imagery, symbolizing how the two cultures meet, influence one another, and gradually shape a cultural"
+    "For this work, shiroooo11 combined colorful floral tiles, commonly found in Taiwan's modern architecture, with ramen and flower sushi, iconic elements of Japanese food culture. The sushi fish travels between Taiwanese and Japanese cultural imagery, symbolizing how the two cultures meet and influence one another in everyday life, gradually shaping a cultural landscape unique to Taiwan.",
+    "The fish and noodles in the work also carry wishes of good fortune. The fish symbolizes abundance and prosperity, echoing the Chinese saying \"may you have surplus year after year.\" In both Chinese and Japanese cultures, noodles represent peace, good fortune, and lasting friendship. Through these two elements, the artist hopes to express blessings for cultural exchange and wishes for this cross-cultural friendship to endure for years to come."
    ]
   ]
  },
@@ -817,6 +868,12 @@ const WORKS = [
     "Water-based cement paint"
    ],
    [
+    "展出地點",
+    "Location",
+    "中山北路一段53巷",
+    "Lane 53, Section 1, Zhongshan N Rd"
+   ],
+   [
     "創作年份",
     "Year",
     "2026",
@@ -826,12 +883,12 @@ const WORKS = [
   "thanks": "藝高文創股份有限公司、杉木藝術有限公司、吳美瑩里長、<br>Razzle Dazzle 文明放縱鹽酥雞小酒館、三條通熱情的鄰居們",
   "desc": [
    [
-    "我覺得台北市給我的感覺就像一個被森林所包圍的現代城市。<br>繁華的同時不知為何又同時給人一種靜謐的感覺，有點魔幻、有點超現實。<br>於是我嘗試將這樣的感覺放入這幅壁畫當中，呈現一個城市森林白日夢的感覺。<br>設計作品的時候，也刻意選用了街道上出現的色彩，<br>希望它能夠更好的融入街景。"
+    "拾壹shiroooo11 認為，臺北市給她的感覺就像一座被森林所包圍的現代城市，繁華的同時，不知為何又給人一種靜謐的感覺，有點魔幻、有點超現實。於是，她嘗試將這樣的感覺放入這幅壁畫當中，呈現一個城市森林白日夢的感覺。設計作品時，藝術家也刻意選用了街道上出現的色彩，希望作品能夠更好地融入街景。"
    ],
    [
-    "To me, Taipei feels like a modern city surrounded by forests. Despite its bustling urban life, the city has a sense of quietness that is difficult to explain. There is something magical and almost surreal about it.",
-    "I wanted to bring this feeling into the mural, creating a kind of daydream where the city and the forest blend together.",
-    "When designing the mural, I deliberately chose colors found in the surrounding streets, hoping the artwork would blend naturally into the urban landscape."
+    "To shiroooo11, Taipei feels like a modern city surrounded by forests. Despite its bustling urban life, the city has a sense of quietness that is difficult to explain, something magical and almost surreal.",
+    "She sought to bring this feeling into the mural, creating a kind of daydream where the city and the forest blend together.",
+    "When designing the mural, the artist deliberately chose colors found in the surrounding streets, hoping the artwork would blend naturally into the urban landscape."
    ]
   ]
  },
@@ -848,13 +905,19 @@ const WORKS = [
   "imgs": 3,
   "meta": [
    [
+    "展出地點",
+    "Location",
+    "士林公民會館",
+    "Taipei City Shilin District Public Assembly Hall"
+   ],
+   [
     "創作年份",
     "Year",
     "2026",
     null
    ]
   ],
-  "thanks": null,
+  "thanks": "藝高文創股份有限公司",
   "desc": [
    [],
    []
@@ -885,6 +948,12 @@ const WORKS = [
     null
    ],
    [
+    "展出地點",
+    "Location",
+    "士林公民會館",
+    "Taipei City Shilin District Public Assembly Hall"
+   ],
+   [
     "創作年份",
     "Year",
     "2026",
@@ -893,7 +962,13 @@ const WORKS = [
   ],
   "thanks": "藝高文創股份有限公司",
   "desc": [
-   [],
+   [
+    "本計畫始於一朵以紙與紙漿製作而成的巨型花朵。這朵花並未停留在展覽空間中，而是被帶進城市，成為一件具表演性的物件，也成為開啟社會互動的契機。",
+    "藝術家帶著花朵走過不同街區與日常場域，邀請陌生人與花合影，促成隨機的相遇與意想不到的拍攝情境。參與者可以自由選擇姿勢、提議地點，或自創情境，讓每一次互動都以各自的方式形塑這項計畫。一面中英雙語的告示牌向路人介紹計畫內容，邀請他們一同參與。",
+    "起初，藝術家對於人們會有什麼反應感到忐忑，卻逐漸發現一種出乎意料的開放與慷慨。好奇、笑聲、讚美與自發的參與，讓這段經驗成為一種認識臺北的方式，跳脫一般觀光客的視角。過程本身也成為冒險的一部分：花朵不尋常的尺寸，在城市各處帶來了臨場應變的解決辦法、熱心相助的相遇，以及意料之外的繞道。",
+    "最終的攝影作品輸出於鋁板上，構成一本視覺日記，記錄花朵的旅程，以及那些短暫成為其中一部分的人們。這件作品不只是一系列肖像，更記錄了轉瞬即逝的連結，以及一件不尋常的物件如何暫時改變陌生人之間、人與周遭環境之間的關係。",
+    "本計畫也是一個持續發展系列的起點。未來，藝術家將在每個地方創作一朵新的花，從當地的材料、視覺文化與社會脈絡中汲取靈感。每一朵花都將成為新相遇的起點，讓作品透過所接觸的人與地方持續演變。"
+   ],
    [
     "This project began with the making of an oversized flower from paper and papier-mâché. Rather than remaining confined to the exhibition space, the flower was carried through the city, becoming a performative object and a pretext for social interaction.",
     "Walking through different neighbourhoods and everyday spaces, the artist invited strangers to pose alongside the flower, encouraging spontaneous encounters and unexpected photographic situations. Participants were free to choose their poses, suggest locations or invent their own scenarios, allowing each interaction to shape the project in its own way. A bilingual sign in English and Chinese introduced the project to passers-by, inviting them to take part.",
@@ -928,6 +1003,12 @@ const WORKS = [
     null
    ],
    [
+    "展出地點",
+    "Location",
+    "士林公民會館",
+    "Taipei City Shilin District Public Assembly Hall"
+   ],
+   [
     "創作年份",
     "Year",
     "2026",
@@ -936,13 +1017,19 @@ const WORKS = [
   ],
   "thanks": "jasmot、shiroooo11、藝高文創股份有限公司、杉木藝術有限公司",
   "desc": [
-   [],
    [
-    "This mural was inspired by my encounter with Taipei during the summer, a season marked by unpredictable weather, torrential rain, typhoons and overwhelming humidity. Coming from France, I found it challenging to adapt to this tropical climate, which was so different from what I was used to.",
-    "Yet, alongside these climatic challenges, I was struck by the extraordinary presence of nature throughout the city. Lush vegetation, abundant flowers and dense forests coexist with the urban environment, creating a landscape where the city and nature seem to intertwine.",
-    "The mural depicts two rain-filled clouds, but instead of releasing water, they shower the ground with flowers. This simple transformation reflects my discovery of Taipei: what initially felt overwhelming and unfamiliar gradually became a source of fascination. The flowers represent the richness of the local flora, while the clouds evoke the unpredictable weather that shaped my first experience of the city.",
-    "The vibrant colour palette is also a tribute to Taipei’s colourful streets, creative spirit and visual energy. Rather than offering a detailed representation of the city, I chose a simple and playful image that brings together two contrasting aspects of my experience: the intensity of the tropical climate and the beauty of the surrounding vegetation.",
-    "This mural is a personal interpretation of my encounter with Taiwan. It reflects the process of adapting to an unfamiliar environment and discovering beauty in what first seems difficult"
+    "這幅壁畫的靈感來自 Thea Macera 在夏季與臺北的相遇。這是一個天氣變幻莫測、豪雨與颱風頻繁、濕氣難耐的季節。來自法國的她，一開始難以適應這種與家鄉截然不同的熱帶氣候。",
+    "然而，在這些氣候挑戰之外，城市中無所不在的自然景觀也令她深受震撼。繁茂的植物、盛開的花朵與茂密的森林，和都市環境共存，形成城市與自然彼此交織的風景。",
+    "壁畫描繪了兩朵飽含雨水的雲，但雲朵灑落的不是雨水，而是花朵。這個簡單的轉化，映照出她對臺北的認識過程：起初令人難以招架、感到陌生的一切，逐漸成為令人著迷的來源。花朵代表當地豐富的植物生態，雲朵則喚起那些形塑她初次城市經驗的多變天氣。",
+    "鮮明的色彩也是對臺北繽紛街道、創意精神與視覺活力的致敬。Thea Macera 沒有選擇細緻描繪城市，而是以一個簡單、富有趣味的畫面，結合這段經驗中兩個對比鮮明的面向：熱帶氣候的強烈，以及周遭植物的美好。",
+    "這幅壁畫是她對這段臺灣經驗的個人詮釋，呈現出適應陌生環境的過程，以及在起初看似艱難的事物中發現美的歷程。"
+   ],
+   [
+    "This mural was inspired by Thea Macera's encounter with Taipei during the summer, a season marked by unpredictable weather, torrential rain, typhoons and overwhelming humidity. Coming from France, she found it challenging to adapt to this tropical climate, which was so different from what she was used to.",
+    "Yet, alongside these climatic challenges, she was struck by the extraordinary presence of nature throughout the city. Lush vegetation, abundant flowers and dense forests coexist with the urban environment, creating a landscape where the city and nature seem to intertwine.",
+    "The mural depicts two rain-filled clouds, but instead of releasing water, they shower the ground with flowers. This simple transformation reflects her discovery of Taipei: what initially felt overwhelming and unfamiliar gradually became a source of fascination. The flowers represent the richness of the local flora, while the clouds evoke the unpredictable weather that shaped her first experience of the city.",
+    "The vibrant colour palette is also a tribute to Taipei's colourful streets, creative spirit and visual energy. Rather than offering a detailed representation of the city, Macera chose a simple and playful image that brings together two contrasting aspects of her experience: the intensity of the tropical climate and the beauty of the surrounding vegetation.",
+    "This mural is a personal interpretation of her encounter with Taiwan. It reflects the process of adapting to an unfamiliar environment and discovering beauty in what first seems difficult."
    ]
   ]
  },
@@ -965,6 +1052,12 @@ const WORKS = [
     "Exterior acrylic paint"
    ],
    [
+    "展出地點",
+    "Location",
+    "華山公園",
+    "Huashan Park"
+   ],
+   [
     "創作年份",
     "Year",
     "2026",
@@ -973,32 +1066,37 @@ const WORKS = [
   ],
   "thanks": "藝高文創股份有限公司、吳美瑩里長、臺北市政府工務局公園路燈工程管理處",
   "desc": [
-   [],
    [
-    "This mural taps straight into a heavy wave of personal nostalgia: childhood playtimes in southern Taiwan, endless school recesses, and long late-90s park afternoons. Back then, massive concrete elephant slides were everywhere. After years of living across different cultures and traveling the world, returning home to Taiwan made me realize how these iconic structures have slowly faded from the landscape, quietly drifting toward extinction.",
-    "Encountering this brutalist playground brought all those core memories rushing back. Sitting right here in Taipei’s historic Tiaotong district, a neighborhood that evolved from a Japanese-era grid inspired by a chessboard pattern into a dynamic nightlife hub, the checkered elephant felt like the perfect bridge. Across Asian traditions, the elephant stands for strength and stability, making it an awesome tribute to those classic play structures that anchored generations of kids.",
-    "Visually, I didn't want to mask or cover up the playground’s raw concrete surface. I’ve always been drawn to the unrefined, heavy weight of 50s Brutalism and béton brut. Using a mix of exterior acrylic, I blasted vibrant, high-energy colors directly onto the weathered concrete so the art and the site's natural texture could coexist.",
-    "Ultimately, this piece is my personal loop back to what started it all: a love for fine art, pop culture, and playful storytelling. It’s about taking a fading piece of local memory and dropping a bold, fresh layer onto the park, creating a fun checkpoint where older generations can reminisce and new kids can just enjoy playing."
+    "這件壁畫喚起了 madkidgenius 濃厚的個人懷舊情感：在臺灣南部度過的童年遊戲時光、彷彿永無止境的下課時間，以及 1990 年代末期在公園裡消磨的漫長午後。那時，巨大的水泥大象溜滑梯隨處可見。在不同文化之間生活、走遍世界多年後，他回到臺灣，才發現這些具代表性的遊具已逐漸從城市風景中消失，悄悄地走向滅絕。",
+    "與這座粗獷主義風格遊樂場的相遇，讓所有童年記憶瞬間湧現。遊樂場坐落於臺北歷史悠久的條通商圈，這個街區從日治時期仿照棋盤格局規劃的街道，逐漸發展成充滿活力的夜生活重鎮。對藝術家而言，一頭棋盤格紋的大象，正是串連過去與現在的最佳橋梁。在亞洲各地的傳統中，大象象徵力量與穩定，也讓這件作品成為向陪伴一代代孩子成長的經典遊具致敬的最佳方式。",
+    "在視覺呈現上，madkidgenius 選擇不遮蓋遊樂場原始的水泥表面。他一直深受 1950 年代粗獷主義（Brutalism）與清水混凝土（béton brut）那種未經修飾、厚重質感的吸引。他以多種戶外壓克力顏料，將鮮明而充滿能量的色彩直接塗繪在歷經風霜的水泥上，讓藝術與場域本身的自然紋理共存。",
+    "最終，這件作品是藝術家回到創作初衷的一段個人旅程：對純藝術、流行文化與趣味敘事的熱愛。他將逐漸消逝的在地記憶，疊上一層大膽而嶄新的色彩，為公園創造一個有趣的打卡點，讓年長的世代在此緬懷過往，也讓新一代的孩子盡情玩耍。"
+   ],
+   [
+    "This mural taps into a strong wave of personal nostalgia for madkidgenius: childhood playtimes in southern Taiwan, endless school recesses, and long late-’90s afternoons in the park. Back then, massive concrete elephant slides were everywhere. After years of living across different cultures and traveling the world, he returned home to Taiwan and realized how these iconic structures had slowly faded from the landscape, quietly drifting toward extinction.",
+    "Encountering this brutalist playground brought all those core memories rushing back. The playground sits in Taipei’s historic Tiaotong district, a neighborhood that evolved from a Japanese-era grid inspired by a chessboard pattern into a dynamic nightlife hub. For the artist, a checkered elephant felt like the perfect bridge. Across Asian traditions, the elephant stands for strength and stability, making it a fitting tribute to the classic play structures that anchored generations of kids.",
+    "Visually, madkidgenius chose not to mask or cover up the playground’s raw concrete surface. He has always been drawn to the unrefined, heavy weight of 1950s Brutalism and béton brut. Using a mix of exterior acrylics, he applied vibrant, high-energy colors directly onto the weathered concrete, allowing the art and the site’s natural texture to coexist.",
+    "Ultimately, this piece is the artist’s personal loop back to what started it all: a love for fine art, pop culture, and playful storytelling. It takes a fading piece of local memory and adds a bold, fresh layer to the park, creating a fun checkpoint where older generations can reminisce and new kids can simply enjoy playing."
    ]
   ]
  },
  {
   "id": "W09",
   "title": [
-   "線上影像",
-   "Online Video"
+   null,
+   "THE BREATHING FILE"
   ],
   "artists": [
    "A05"
   ],
   "video": true,
-  "imgs": 0,
+  "imgs": 3,
   "meta": [
    [
     "媒材",
     "Medium",
     "影像",
-    null
+    "Video"
    ],
    [
     "創作年份",
@@ -1009,8 +1107,14 @@ const WORKS = [
   ],
   "thanks": null,
   "desc": [
-   [],
-   []
+   [
+    "Juan Zamora 的《The Breathing File》是一場以「集體呼吸檔案」為概念的 DIY 生物藝術工作坊，於臺北青年理想生活節中舉辦。參與者將自己呼出的氣息收集在備有培養基的培養皿中，隨著時間觀看、聆聽那些棲居於體內的無形生命逐漸生長。",
+    "經過數週的培養，每一份培養物都發展出屬於每個人獨一無二的形狀與色彩紋理，成為一段保存並分享內在生命的奇妙過程。這些培養皿共同構成一座「活的檔案庫」，藝術家再透過自行開發的 MIDI 程式，將其轉譯為音樂與影像。"
+   ],
+   [
+    "Conceived as a collective archive of breath, The Breathing File by Juan Zamora is a DIY bio-art workshop held at the Taipei Youth Ideal Living Festival. Participants captured their own exhalations in Petri dishes prepared with a culture medium, allowing them to watch and listen to the invisible life that inhabits them grow over time.",
+    "Over the following weeks, each culture developed shapes and color patterns unique to each person, a magical process of preserving and sharing our inner life. Together, these dishes form a living archive, which the artist translated into music and video using a custom-built MIDI program."
+   ]
   ]
  },
  {
@@ -1046,7 +1150,9 @@ const WORKS = [
   ],
   "thanks": "Actor - Vitor Lodi<br>Producer - Tz Ting Tseng<br>Composer - Lee Triffon<br>Sound Mixer - Annchee Huang",
   "desc": [
-   [],
+   [
+    "一名外國人來到臺北，在街頭拾得一件小小的民俗樂器。他循著它的蹤跡，走進城市隱密的角落、層層交疊的過往，以及日常生活之中，從白晝一路走入深夜。他始終沒有找到樂器的來處，但到了黎明，他已不再需要那個答案。"
+   ],
    [
     "A foreigner arrives in Taipei, finds a small folk instrument on the street, and follows it into the city’s hidden corners, layered past, and daily life, by day and deep into the night. He doesn’t find where it came from, but by dawn, he no longer needs the answer."
    ]
@@ -1065,6 +1171,7 @@ const SITE = {
   face:'大頭貼', bio:['基本介紹','About'], links:['外部連結','Links'], newtab:'新分頁 new tab',
   thisWorks:['本次作品','Works in this program'], video:['影片，點了直接播放','Video, plays on click'],
   img:'作品圖', byArtists:['創作藝術家','Artists'], desc:['詳細介紹','About the work'], thanks:['協力與致謝','Collaborators & Thanks'],
+  intro:['計畫簡介','About the program'],
   open:'開啟檔案 OPEN FILE →',
 };
 
@@ -1251,6 +1358,8 @@ function renderHome(){
     <div class="stat dates rv"><b class="d" data-scr>${esc(PROGRAM.dates[0])}</b></div>
   </section>
 
+  ${introSection()}
+
   <section class="sec" id="artists">
     <div class="sh rv"><span class="k" data-scr>/* 01 — # ACCESS */</span><h2>${esc(sa[0])}<em lang="en">${esc(sa[1])}</em></h2><span class="n">[${pad(ARTISTS.length)}]</span></div>
     <ol class="alist" id="alist">${ARTISTS.map(artistRow).join('')}</ol>
@@ -1261,6 +1370,13 @@ function renderHome(){
     <div class="sh rv"><span class="k" data-scr>/* 02 — &amp; SHARE */</span><h2>${esc(sw[0])}<em lang="en">${esc(sw[1])}</em></h2><span class="n">[${pad(WORKS.length)}]</span></div>
     <div class="shelf rv" id="shelf">${WORKS.map(strip).join('')}</div>
   </section>`;
+}
+/* 計畫簡介：試算表有填才出現；只有一種語言時用整欄 */
+function introSection(){
+  const it = PROGRAM.intro;
+  if(!it || (!it[0].length && !it[1].length)) return '';
+  return `<section class="sec intro" id="about"><div class="doc rv">${H4}<div class="doc-bar"><span>readme_File_in_Taipei.txt</span><span>${SITE.intro[0]} / ${SITE.intro[1]}</span></div>
+    <div class="cols${it[0].length && it[1].length ? '' : ' one'}">${it[0].length ? `<div>${paras(it[0])}</div>` : ''}${it[1].length ? `<div>${paras(it[1], true)}</div>` : ''}</div></div></section>`;
 }
 function portrait(a, cls){
   const i = ARTISTS.indexOf(a);
