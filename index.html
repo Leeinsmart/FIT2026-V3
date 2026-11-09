@@ -264,10 +264,6 @@ button.stat:hover b{color:var(--mag)}
 .mini .sid{left:14px;top:14px;transform:none}
 .mini .stt{font-size:clamp(20px,2vw,28px)}
 .mini .stt.lat{font-size:clamp(22px,2.2vw,30px)}
-.vbox{position:relative;margin-top:56px;aspect-ratio:16/9;display:grid;place-items:center;background:var(--g);border:1.5px solid var(--line);overflow:hidden}
-.vbox .play{display:flex;flex-direction:column;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);padding:18px 24px;color:var(--navy);text-align:center}
-.vbox .play b{font:500 46px/1 var(--f-asc)}
-.vbox .play span{font:400 13px/1.5 var(--f-zh)}
 
 /* 作品內頁 */
 .wp-head .aid{display:block;margin-bottom:10px}
@@ -293,6 +289,21 @@ button.stat:hover b{color:var(--mag)}
 .gthumbs.pics{overflow-x:auto;padding:6px 2px 10px;scrollbar-width:thin}
 .gthumbs.pics button{background:#fff;padding:0;overflow:hidden}
 .gthumbs.pics button img{display:block;width:100%;height:100%;object-fit:cover}
+/* 影像作品：影片排在圖庫最前面。漸層底上一張白卡（▶、片名、說明），點了才把播放器嵌進來；換到作品圖時整層收起 */
+.gvid{position:absolute;inset:0;z-index:1;display:grid;place-items:center;background:var(--g);overflow:hidden}
+.gvid[hidden]{display:none}
+.gvid .play{display:flex;flex-direction:column;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);padding:18px 24px;color:var(--navy);text-align:center;font:inherit;cursor:pointer}
+.gvid span.play{cursor:default}
+.gvid .play b{font:500 46px/1 var(--f-asc)}
+.gvid .play span{font:400 13px/1.5 var(--f-zh)}
+.gvid .play small{font:300 10px/1 var(--f-asc);letter-spacing:.15em;opacity:.7}
+.gvid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.gmain .gimg.off{display:none}
+.gmain.playing .glab{display:none}
+.gthumbs.pics button.vth{background:var(--g);display:grid;place-items:center}
+.gthumbs button.vth b{background:#fff;border:1.5px solid var(--line);padding:6px 9px;font:500 18px/1 var(--f-asc);color:var(--navy)}
+/* 手機上主圖框只有約 190px 高，白卡縮小，左右留給切換鈕（各 44px，距邊 12px） */
+@media (max-width:820px){.gvid .play{max-width:calc(100% - 128px);padding:10px 12px;gap:6px}.gvid .play b{font-size:28px}.gvid .play span{font-size:12px}}
 /* 作品封面：作品條展開、藝術家頁小卡上鋪第一張作品圖，雙色調，滑過轉彩色；字的白框疊在上面 */
 .scover{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .7s;pointer-events:none}
 .scover img{width:100%;height:100%;object-fit:cover}
@@ -771,11 +782,12 @@ const WORKS = [
    "One Stop, All Together"
   ],
   "artists": [
-   "A01",
    "A02",
-   "A03"
+   "A03",
+   "A01"
   ],
   "video": false,
+  "videos": [],
   "pics": [
    {
     "src": "img/W01/01.webp",
@@ -895,6 +907,7 @@ const WORKS = [
    "A04"
   ],
   "video": false,
+  "videos": [],
   "pics": [
    {
     "src": "img/W02/01.webp",
@@ -994,6 +1007,7 @@ const WORKS = [
    "A03"
   ],
   "video": false,
+  "videos": [],
   "pics": [
    {
     "src": "img/W03/01.webp",
@@ -1083,6 +1097,7 @@ const WORKS = [
    "A03"
   ],
   "video": false,
+  "videos": [],
   "pics": [
    {
     "src": "img/W04/01.webp",
@@ -1160,6 +1175,7 @@ const WORKS = [
    "A07"
   ],
   "video": false,
+  "videos": [],
   "pics": [
    {
     "src": "img/W05/01.webp",
@@ -1249,6 +1265,7 @@ const WORKS = [
    "A08"
   ],
   "video": false,
+  "videos": [],
   "pics": [
    {
     "src": "img/W06/01.webp",
@@ -1276,19 +1293,19 @@ const WORKS = [
    },
    {
     "src": "img/W06/04.webp",
-    "set": "img/W06/04-c.webp 900w, img/W06/04-m.webp 1200w, img/W06/04.webp 1600w",
+    "set": "img/W06/04-c.webp 637w, img/W06/04-m.webp 849w, img/W06/04.webp 1132w",
     "cover": "img/W06/04-c.webp",
     "thumb": "img/W06/04-t.webp",
-    "w": 1600,
-    "h": 1069
+    "w": 1132,
+    "h": 1600
    },
    {
     "src": "img/W06/05.webp",
-    "set": "img/W06/05-c.webp 900w, img/W06/05-m.webp 1200w, img/W06/05.webp 1600w",
+    "set": "img/W06/05-c.webp 637w, img/W06/05-m.webp 849w, img/W06/05.webp 1132w",
     "cover": "img/W06/05-c.webp",
     "thumb": "img/W06/05-t.webp",
-    "w": 1600,
-    "h": 1069
+    "w": 1132,
+    "h": 1600
    },
    {
     "src": "img/W06/06.webp",
@@ -1354,6 +1371,7 @@ const WORKS = [
    "A08"
   ],
   "video": false,
+  "videos": [],
   "pics": [
    {
     "src": "img/W07/01.webp",
@@ -1435,6 +1453,7 @@ const WORKS = [
    "A01"
   ],
   "video": false,
+  "videos": [],
   "pics": [
    {
     "src": "img/W08/01.webp",
@@ -1620,6 +1639,7 @@ const WORKS = [
    "A05"
   ],
   "video": true,
+  "videos": [],
   "pics": [
    {
     "src": "img/W09/01.webp",
@@ -1683,6 +1703,7 @@ const WORKS = [
    "A06"
   ],
   "video": true,
+  "videos": [],
   "pics": [
    {
     "src": "img/W10/01.webp",
@@ -1776,6 +1797,7 @@ const WORKS = [
 const SITE = {
   face:'大頭貼', bio:['基本介紹','About'], links:['外部連結','Links'], newtab:'新分頁 new tab',
   thisWorks:['本次作品','Works in this program'], video:['影片，點了直接播放','Video, plays on click'],
+  vid:['影片','Video'], videoSoon:['影片準備中','Video coming soon'], watch:['觀看影片','Watch the video'],
   img:'作品圖', byArtists:['創作藝術家','Artists'], desc:['詳細介紹','About the work'], thanks:['協力與致謝','Collaborators & Thanks'],
   intro:['計畫簡介','About the program'],
   open:'開啟檔案 OPEN FILE →',
@@ -2060,7 +2082,6 @@ function renderArtist(r){
   const n = ARTISTS.length, i = ARTISTS.indexOf(a), prev = ARTISTS[(i - 1 + n) % n], next = ARTISTS[(i + 1) % n];
   const ws = worksOf(a.id);
   const hasBio = a.bio[0].length || a.bio[1].length;
-  const vw = ws.find(w => w.video);
   const links = a.links.map(l => `<a class="sel" href="${esc(l[1])}" target="_blank" rel="noopener">&gt; ${esc(l[0])} ↗<small>${SITE.newtab}</small></a>`).join('');
   return `<article class="page ap">
     <div class="crumb" data-scr>&gt; PATH: ./artists/${a.id}/${esc(U(a.name))}</div>
@@ -2076,7 +2097,6 @@ function renderArtist(r){
       <span class="hdl" id="tetH" aria-hidden="true"></span>
     </header>
     ${hasBio ? `<section class="doc rv">${H4}<div class="doc-bar"><span>about_${a.id}.txt</span><span>${SITE.bio[0]} / ${SITE.bio[1]}</span></div><div class="cols${a.bio[0].length && a.bio[1].length ? '' : ' one'}">${a.bio[0].length ? `<div>${paras(a.bio[0])}</div>` : ''}${a.bio[1].length ? `<div>${paras(a.bio[1], true)}</div>` : ''}</div></section>` : ''}
-    ${vw ? `<a class="vbox rv" href="#/works/${vw.id}" style="--g:${grad(WORKS.indexOf(vw), '120deg')}"><span class="sgrain"></span><span class="play"><b>▶</b><span>${esc(titleMain(vw))}<br>${SITE.video[0]} <span lang="en">${SITE.video[1]}</span></span></span></a>` : ''}
     <h2 class="sub-h rv">${SITE.thisWorks[0]}<em lang="en">${SITE.thisWorks[1]}</em><span class="n">[${pad(ws.length)}]</span></h2>
     <div class="minis">${ws.map(w => `<a class="mini rv sel" href="#/works/${w.id}" style="--g:${grad(WORKS.indexOf(w))}">${cover(w, true)}<span class="sgrain"></span><span class="sid">${w.id}${w.video ? ' ▶' : ''}</span>${workLines(w)}</a>`).join('')}</div>
     <nav class="pn"><a href="#/artists/${prev.id}"><small>&lt; PREV / ${prev.id}</small><b>${esc(prev.name)}</b></a><a href="#/artists/${next.id}"><small>NEXT / ${next.id} &gt;</small><b>${esc(next.name)}</b></a></nav>
@@ -2093,21 +2113,42 @@ function mapUrl(loc){
   if(/[0-9０-９]\s*(號|巷|弄)/.test(loc)) return 'https://www.google.com/maps/place/' + encodeURIComponent(q);
   return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q) + (PLACE_ID[loc] ? '&query_place_id=' + PLACE_ID[loc] : '');
 }
+/* 影像作品的影片格：試算表「影片連結」給了幾支網址就幾格；還沒給網址的放一格「影片準備中」 */
+const videoSlots = w => !w.video ? [] : (w.videos || []).length ? w.videos : [null];
+const vidLab = (k, n) => `${SITE.vid[0]} ${SITE.vid[1]}${n > 1 ? ` ${k + 1} / ${n}` : ''}`;
+/* YouTube（watch、youtu.be、shorts、live）轉成 youtube-nocookie 的嵌入網址，Vimeo 轉成 player.vimeo.com；其他網址回傳空字串，改成開新分頁 */
+function embedUrl(u){
+  let m = String(u).match(/(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/);
+  if(m) return `https://www.youtube-nocookie.com/embed/${m[1]}?autoplay=1&rel=0&playsinline=1`;
+  m = String(u).match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return m ? `https://player.vimeo.com/video/${m[1]}?autoplay=1` : '';
+}
+/* 影片格中間的白卡：有可嵌入的網址才寫「點了直接播放」；沒有網址寫「影片準備中」，不能點 */
+function playCard(w, u){
+  const tm = esc(titleMain(w));
+  if(!u) return `<span class="play"><b>▶</b><span>${tm}<br>${SITE.videoSoon[0]} <span lang="en">${SITE.videoSoon[1]}</span></span></span>`;
+  const e = embedUrl(u);
+  return e ? `<button class="play sel" type="button" data-play="${esc(e)}"><b>▶</b><span>${tm}<br>${SITE.video[0]} <span lang="en">${SITE.video[1]}</span></span></button>`
+           : `<a class="play sel" href="${esc(u)}" target="_blank" rel="noopener"><b>▶</b><span>${tm}<br>${SITE.watch[0]} <span lang="en">${SITE.watch[1]}</span> ↗</span><small>${SITE.newtab}</small></a>`;
+}
 function renderWork(r){
   const w = workById(r.id);
   if(!w) return `<article class="page"><p class="crumb">&gt; ${esc(r.id)} not found</p></article>`;
   const n = WORKS.length, i = WORKS.indexOf(w), prev = WORKS[(i - 1 + n) % n], next = WORKS[(i + 1) % n];
   const tm = titleMain(w), ts = titleSub(w);
   const chips = w.artists.map(id => { const a = artist(id); return `<a class="chip sel" href="#/artists/${id}">${portrait(a)}<b>${esc(a.name)}</b></a>`; }).join('');
-  /* 有作品圖就放真的圖：大圖完整顯示不裁切，縮圖可橫捲；還沒有圖的保留漸層佔位 */
-  const P = w.pics || [];
-  const thumbs = P.length
-    ? P.map((p, k) => `<button class="${k === 0 ? 'on' : ''}" data-k="${k}" aria-label="${SITE.img} ${k + 1}"><img src="${p.thumb}" alt="" loading="lazy" decoding="async"></button>`).join('')
-    : Array.from({length: w.imgs}, (_, k) => `<button class="${k === 0 ? 'on' : ''}" data-k="${k}" style="--g:${grad(i, (180 + k * 50) + 'deg')}" aria-label="${SITE.img} ${k + 1}">${k + 1}</button>`).join('');
-  const lab = w.video && !P.length ? `<b>▶</b>${esc(tm)}<br>${SITE.video[0]} <span lang="en">${SITE.video[1]}</span>` : `${SITE.img} 1 / ${P.length || w.imgs}`;
-  const gmain = P.length
-    ? `<div class="gmain has" id="gmain" data-n="${P.length}" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}<img class="gimg" id="gimg" sizes="${picSizes(P[0])}" srcset="${P[0].set}" src="${P[0].src}" alt="${esc(tm)} ${SITE.img} 1" decoding="async"><span class="glab cap" id="glab">${lab}</span>${P.length > 1 ? '<button class="gnav prev" aria-label="上一張 Previous">‹</button><button class="gnav next" aria-label="下一張 Next">›</button>' : ''}</div>`
-    : `<div class="gmain" id="gmain" data-n="${w.imgs}" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}<span class="sgrain"></span><span class="glab" id="glab">${lab}</span></div>`;
+  /* 有作品圖就放真的圖：大圖完整顯示不裁切，縮圖可橫捲；還沒有圖的保留漸層佔位。
+     影像作品的影片排在作品圖前面，一支一格（videoSlots） */
+  const P = w.pics || [], VS = videoSlots(w), nV = VS.length, nP = P.length || (nV ? 0 : w.imgs), N = nV + nP;
+  const thumbs = VS.map((u, k) => `<button class="vth${k === 0 ? ' on' : ''}" data-k="${k}" style="--g:${grad(i, '120deg')}" aria-label="${vidLab(k, nV)}"><b>▶</b></button>`).join('') + (P.length
+    ? P.map((p, k) => `<button class="${nV + k === 0 ? 'on' : ''}" data-k="${nV + k}" aria-label="${SITE.img} ${k + 1}"><img src="${p.thumb}" alt="" loading="lazy" decoding="async"></button>`).join('')
+    : Array.from({length: nP}, (_, k) => `<button class="${k === 0 ? 'on' : ''}" data-k="${k}" style="--g:${grad(i, (180 + k * 50) + 'deg')}" aria-label="${SITE.img} ${k + 1}">${k + 1}</button>`).join(''));
+  const lab = nV ? vidLab(0, nV) : `${SITE.img} 1 / ${nP}`;
+  const gvid = nV ? `<div class="gvid" id="gvid" style="--g:${grad(i, '120deg')}">${playCard(w, VS[0])}</div>` : '';
+  const gimg = P.length ? `<img class="gimg${nV ? ' off' : ''}" id="gimg" sizes="${picSizes(P[0])}" srcset="${P[0].set}" src="${P[0].src}" alt="${esc(tm)} ${SITE.img} 1" decoding="async">` : '';
+  const gmain = P.length || nV
+    ? `<div class="gmain has" id="gmain" data-n="${N}" data-v="${nV}" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}${gvid}${gimg}<span class="glab cap" id="glab">${lab}</span>${N > 1 ? '<button class="gnav prev" aria-label="上一張 Previous">‹</button><button class="gnav next" aria-label="下一張 Next">›</button>' : ''}</div>`
+    : `<div class="gmain" id="gmain" data-n="${N}" data-v="0" data-i="${i}" style="--g:${grad(i, '180deg')}">${H4}<span class="sgrain"></span><span class="glab" id="glab">${lab}</span></div>`;
   const meta = w.meta.map(m => {
     const v = bil([m[2], m[3]]);
     const val = m[1] === 'Location' && m[2] ? `<a class="map" href="${esc(mapUrl(m[2]))}" target="_blank" rel="noopener">${v}<small>Google 地圖 ↗</small></a>` : v;
@@ -2119,7 +2160,7 @@ function renderWork(r){
     <header class="wp-head rv"><span class="aid">${w.id}${w.video ? ' · VIDEO' : ''}</span><h1 class="wp-title${lat(tm) ? ' lat' : ''}">${esc(tm)}</h1>${ts ? `<p class="wp-sub" lang="en">${esc(ts)}</p>` : ''}</header>
     <section class="gal rv">
       ${gmain}
-      ${(P.length || w.imgs) > 1 ? `<div class="gthumbs${P.length ? ' pics' : ''}" id="gthumbs">${thumbs}</div>` : ''}
+      ${N > 1 ? `<div class="gthumbs${P.length || nV ? ' pics' : ''}" id="gthumbs">${thumbs}</div>` : ''}
     </section>
     <section class="wp-body">
       <div>
@@ -2409,28 +2450,50 @@ function initTether(){
 function initGallery(){
   const g = $('#gmain');
   if(!g) return;
-  const n = +g.dataset.n, i = +g.dataset.i, lab = $('#glab'), th = $('#gthumbs'), img = $('#gimg');
+  /* 前 nV 格是影片（videoSlots），後面是作品圖；k 是格數，作品圖用 k - nV 去 P 裡取 */
+  const n = +g.dataset.n, nV = +g.dataset.v || 0, i = +g.dataset.i, lab = $('#glab'), th = $('#gthumbs'), img = $('#gimg'), gv = $('#gvid');
+  const W = WORKS[i], P = W.pics || [], tm = titleMain(W), VS = videoSlots(W);
+  /* 點白卡才把播放器嵌進來；換到別格時整層清掉，影片跟著停 */
+  if(gv) gv.addEventListener('click', e => {
+    const b = e.target.closest('[data-play]');
+    if(!b) return;
+    const f = document.createElement('iframe');
+    f.src = b.dataset.play; f.title = tm; f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen = true;
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    b.replaceWith(f);
+    g.classList.add('playing');
+  });
   if(n < 2) return;
-  const P = WORKS[i].pics || [], tm = titleMain(WORKS[i]);
   let k = 0;
   /* 換圖與預抓都用同一組 sizes＋srcset，瀏覽器挑到的跟主圖同一個檔，預抓的才會被用上 */
   const pick = (el, p) => { el.sizes = picSizes(p); el.srcset = p.set; el.src = p.src; };
-  const preload = j => { const p = P[(j + n) % n]; if(p) pick(new Image(), p); };
+  const preload = j => { const p = P[(j + P.length) % P.length]; if(p) pick(new Image(), p); };
   const show = j => {
     k = (j + n) % n;
-    if(img && P[k]){
-      img.classList.add('fade');
-      const next = new Image();
-      next.onload = () => { pick(img, P[k]); img.alt = `${tm} ${SITE.img} ${k + 1}`; img.classList.remove('fade'); };
-      pick(next, P[k]);
-      preload(k + 1);
-    } else g.style.setProperty('--g', grad(i, (180 + k * 50) + 'deg'));
-    lab.textContent = `${SITE.img} ${k + 1} / ${n}`;
-    if(th) $$('button', th).forEach((b, x) => { b.classList.toggle('on', x === k); if(x === k && P.length) b.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: RM ? 'auto' : 'smooth'}); });
+    g.classList.remove('playing');
+    if(k < nV){
+      gv.innerHTML = playCard(W, VS[k]);
+      gv.hidden = false;
+      if(img) img.classList.add('off');
+      lab.textContent = vidLab(k, nV);
+    } else {
+      const p = k - nV;
+      if(gv){ gv.hidden = true; gv.innerHTML = ''; }
+      if(img && P[p]){
+        img.classList.remove('off');
+        img.classList.add('fade');
+        const next = new Image();
+        next.onload = () => { pick(img, P[p]); img.alt = `${tm} ${SITE.img} ${p + 1}`; img.classList.remove('fade'); };
+        pick(next, P[p]);
+        preload(p + 1);
+      } else g.style.setProperty('--g', grad(i, (180 + p * 50) + 'deg'));
+      lab.textContent = `${SITE.img} ${p + 1} / ${n - nV}`;
+    }
+    if(th) $$('button', th).forEach((b, x) => { b.classList.toggle('on', x === k); if(x === k && (P.length || nV)) b.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: RM ? 'auto' : 'smooth'}); });
   };
   /* 第一張下載完才預抓第二張，不跟第一張搶頻寬 */
   if(P.length){ if(img.complete) preload(1); else img.addEventListener('load', () => preload(1), {once: true, signal: pageAC.signal}); }
-  addEventListener('resize', () => { if(P[k]) img.sizes = picSizes(P[k]); }, {signal: pageAC.signal});
+  addEventListener('resize', () => { const p = P[k - nV]; if(img && p) img.sizes = picSizes(p); }, {signal: pageAC.signal});
   if(th) th.addEventListener('click', e => { const b = e.target.closest('[data-k]'); if(b) show(+b.dataset.k); });
   g.addEventListener('click', e => { const b = e.target.closest('.gnav'); if(b) show(k + (b.classList.contains('next') ? 1 : -1)); });
   let sx = null;
